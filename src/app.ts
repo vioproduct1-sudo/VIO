@@ -1,4 +1,5 @@
 import express, { type Request } from "express";
+import { fileURLToPath } from "node:url";
 import { z } from "zod";
 import { AdapterRegistry } from "./adapters/adapter-registry.js";
 import { DemoAdapter } from "./adapters/demo-adapter.js";
@@ -8,7 +9,11 @@ import {
   buildCatalogContent,
   buildHomeContent,
   buildMenuObject,
+  buildMoviesContent,
+  buildSeriesContent,
   buildStartObject,
+  buildSettingsContent,
+  buildTvContent,
 } from "./msx/builders.js";
 
 const catalogQuerySchema = z.object({
@@ -25,7 +30,14 @@ export function createApp(config: AppConfig, registry = new AdapterRegistry().re
   const app = express();
   app.disable("x-powered-by");
   app.set("trust proxy", true);
+  app.use("/assets", express.static(fileURLToPath(new URL("../public/assets", import.meta.url))));
   app.use(express.json({ limit: "100kb" }));
+  app.use((request, response, next) => {
+    response.on("finish", () => {
+      console.log(`${request.method} ${request.originalUrl} ${response.statusCode} ${request.ip}`);
+    });
+    next();
+  });
   app.use((_request, response, next) => {
     response.setHeader("Access-Control-Allow-Origin", "*");
     response.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
@@ -74,13 +86,27 @@ export function createApp(config: AppConfig, registry = new AdapterRegistry().re
   });
 
   app.get("/msx/content/home.json", (_request, response) => {
-    response.json(buildHomeContent());
+    response.json(buildHomeContent(requestBaseUrl(_request, config)));
+  });
+
+  app.get("/msx/content/movies.json", (request, response) => {
+    response.json(buildMoviesContent(requestBaseUrl(request, config)));
+  });
+
+  app.get("/msx/content/series.json", (request, response) => {
+    response.json(buildSeriesContent(requestBaseUrl(request, config)));
+  });
+
+  app.get("/msx/content/tv.json", (request, response) => {
+    response.json(buildTvContent(requestBaseUrl(request, config)));
+  });
+
+  app.get("/msx/content/settings.json", (_request, response) => {
+    response.json(buildSettingsContent());
   });
 
   app.get("/msx/content/catalog.json", async (_request, response) => {
-    const adapter = registry.get("demo");
-    const items = adapter ? await adapter.list({ limit: 30 }) : [];
-    response.json(buildCatalogContent(items));
+    response.json(buildMoviesContent(requestBaseUrl(_request, config)));
   });
 
   app.get("/msx/content/about.json", (_request, response) => {
@@ -93,3 +119,4 @@ export function createApp(config: AppConfig, registry = new AdapterRegistry().re
 
   return app;
 }
+

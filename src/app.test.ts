@@ -26,8 +26,9 @@ describe("VIO API", () => {
   it("публикует меню с абсолютными URL", async () => {
     const response = await request(app).get("/msx/menu.json");
     assert.equal(response.status, 200);
-    assert.equal(response.body.menu.length, 3);
+    assert.equal(response.body.menu.length, 5);
     assert.equal(response.body.menu[0].data, "https://vio.example/msx/content/home.json");
+    assert.equal(response.body.menu[1].label, "Фильмы");
   });
 
   it("выдаёт список адаптеров и ищет в каталоге", async () => {

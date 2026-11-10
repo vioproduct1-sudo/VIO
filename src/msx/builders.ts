@@ -13,38 +13,104 @@ export function buildMenuObject(baseUrl: string) {
     headline: "VIO",
     menu: [
       { id: "home", label: "Главная", data: `${baseUrl}/msx/content/home.json` },
-      { id: "catalog", label: "Каталог", data: `${baseUrl}/msx/content/catalog.json` },
-      { id: "about", label: "О проекте", data: `${baseUrl}/msx/content/about.json` },
+      { id: "movies", label: "Фильмы", data: `${baseUrl}/msx/content/movies.json` },
+      { id: "series", label: "Сериалы", data: `${baseUrl}/msx/content/series.json` },
+      { id: "tv", label: "ТВ", data: `${baseUrl}/msx/content/tv.json` },
+      { id: "settings", label: "Настройки", data: `${baseUrl}/msx/content/settings.json` },
     ],
   };
 }
 
-export function buildHomeContent() {
+function poster(baseUrl: string, file: string, title: string, description: string, layout: string) {
   return {
-    headline: "VIO",
+    layout,
+    label: title,
+    title: description,
+    image: `${baseUrl}/assets/${file}`,
+    action: `info:${description}`,
+  };
+}
+
+export function buildHomeContent(baseUrl: string) {
+  return {
+    headline: "VIO · Твоё кино. Твой выбор.",
+    background: `${baseUrl}/assets/hero.png`,
     type: "pages",
     pages: [
       {
         items: [
           {
-            layout: "0,0,8,6",
-            label: "VIO — ваша медиатека",
-            title: "Универсальная оболочка для Media Station X",
-            action: "info:Подключайте только собственные или лицензированные источники через адаптеры VIO.",
+            layout: "0,0,7,6",
+            label: "Добро пожаловать в VIO",
+            title: "Современная медиатека для фильмов, сериалов и телевидения",
+            image: `${baseUrl}/assets/hero.png`,
+            action: "info:VIO объединяет ваши разрешённые источники в одном удобном интерфейсе.",
           },
-          {
-            layout: "8,0,4,3",
-            label: "Открытая архитектура",
-            action: "info:Источники изолированы общим контрактом адаптера.",
-          },
-          {
-            layout: "8,3,4,3",
-            label: "Безопасный старт",
-            action: "info:В проекте нет нелегальных источников, токенов или секретов.",
-          },
+          poster(baseUrl, "poster-orbit.png", "За пределами орбиты", "Фантастическое путешествие к неизведанному берегу.", "7,0,2,6"),
+          poster(baseUrl, "poster-noir.png", "Город дождя", "Мрачный детектив в неоновом мегаполисе.", "9,0,3,6"),
         ],
       },
     ],
+  };
+}
+
+export function buildMoviesContent(baseUrl: string) {
+  return {
+    headline: "Фильмы",
+    background: `${baseUrl}/assets/hero.png`,
+    type: "pages",
+    pages: [{
+      items: [
+        poster(baseUrl, "poster-orbit.png", "За пределами орбиты", "Фантастика · 2026 · Демонстрационная карточка", "0,0,3,6"),
+        poster(baseUrl, "poster-noir.png", "Город дождя", "Детектив · 2026 · Демонстрационная карточка", "3,0,3,6"),
+        poster(baseUrl, "poster-north.png", "Северный свет", "Документальный · 2026 · Демонстрационная карточка", "6,0,3,6"),
+        poster(baseUrl, "poster-robot.png", "Робот и волшебный лес", "Семейный · 2026 · Демонстрационная карточка", "9,0,3,6"),
+      ],
+    }],
+  };
+}
+
+export function buildSeriesContent(baseUrl: string) {
+  return {
+    headline: "Сериалы",
+    background: `${baseUrl}/assets/hero.png`,
+    type: "pages",
+    pages: [{
+      items: [
+        poster(baseUrl, "poster-noir.png", "Город дождя", "Сезон 1 · 8 серий · Детектив", "0,0,4,6"),
+        poster(baseUrl, "poster-orbit.png", "Новая орбита", "Сезон 1 · 6 серий · Фантастика", "4,0,4,6"),
+        poster(baseUrl, "poster-robot.png", "Лесные истории", "Сезон 1 · 10 серий · Для всей семьи", "8,0,4,6"),
+      ],
+    }],
+  };
+}
+
+export function buildTvContent(baseUrl: string) {
+  return {
+    headline: "ТВ",
+    background: `${baseUrl}/assets/poster-north.png`,
+    type: "pages",
+    pages: [{
+      items: [
+        poster(baseUrl, "poster-north.png", "VIO Природа", "Демонстрационный канал · эфир недоступен", "0,0,4,6"),
+        poster(baseUrl, "poster-orbit.png", "VIO Космос", "Демонстрационный канал · эфир недоступен", "4,0,4,6"),
+        poster(baseUrl, "poster-robot.png", "VIO Семья", "Демонстрационный канал · эфир недоступен", "8,0,4,6"),
+      ],
+    }],
+  };
+}
+
+export function buildSettingsContent() {
+  return {
+    headline: "Настройки",
+    type: "list",
+    pages: [{
+      items: [
+        { layout: "0,0,12,2", label: "Источники", title: "Подключение личных и лицензированных медиатек", action: "info:Источники добавляются через адаптеры VIO на сервере." },
+        { layout: "0,2,12,2", label: "Диагностика", title: "Проверка сервера и доступности каталогов", action: "info:Сервер VIO работает. Адрес проверки: /health" },
+        { layout: "0,4,12,2", label: "О VIO", title: "Версия 0.1.0", action: "info:VIO — независимая русскоязычная оболочка для Media Station X." },
+      ],
+    }],
   };
 }
 
@@ -96,3 +162,4 @@ export function buildAboutContent() {
     ],
   };
 }
+
