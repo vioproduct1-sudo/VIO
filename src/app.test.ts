@@ -18,9 +18,24 @@ describe("VIO API", () => {
     assert.equal(response.headers["access-control-allow-origin"], "*");
     assert.deepEqual(response.body, {
       name: "VIO",
-      version: "0.1.0",
-      parameter: "menu:https://vio.example/msx/menu.json",
+      version: "0.2.0",
+      parameter: "content:https://vio.example/msx/content/home.json",
     });
+  });
+
+  it("показывает компактный каталог без бокового меню", async () => {
+    const response = await request(app).get("/msx/content/series.json");
+    assert.equal(response.status, 200);
+    assert.equal(response.body.compress, true);
+    assert.equal(response.body.pages[0].items[0].label, "VIO");
+    assert.match(response.body.pages[0].items[10].image, /poster-noir\.png$/);
+  });
+
+  it("оставляет подключение iEdem внутри вкладки ТВ", async () => {
+    const response = await request(app).get("/msx/content/tv.json");
+    assert.equal(response.status, 200);
+    const iedem = response.body.pages[0].items.find((item: { label?: string }) => item.label === "iEdem TV");
+    assert.equal(iedem.action, "link:https://ott-play.com/edem/");
   });
 
   it("публикует меню с абсолютными URL", async () => {

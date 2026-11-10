@@ -102,7 +102,7 @@ export function createApp(config: AppConfig, registry = new AdapterRegistry().re
   });
 
   app.get("/msx/content/settings.json", (_request, response) => {
-    response.json(buildSettingsContent());
+    response.json(buildSettingsContent(requestBaseUrl(_request, config)));
   });
 
   app.get("/msx/content/catalog.json", async (_request, response) => {
