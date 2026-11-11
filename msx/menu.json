@@ -1,0 +1,30 @@
+{
+  "headline": "VIO",
+  "menu": [
+    {
+      "id": "home",
+      "label": "Главная",
+      "data": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+    },
+    {
+      "id": "movies",
+      "label": "Фильмы",
+      "data": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/movies.json"
+    },
+    {
+      "id": "series",
+      "label": "Сериалы",
+      "data": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/series.json"
+    },
+    {
+      "id": "tv",
+      "label": "ТВ",
+      "data": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/tv.json"
+    },
+    {
+      "id": "settings",
+      "label": "Настройки",
+      "data": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/settings.json"
+    }
+  ]
+}

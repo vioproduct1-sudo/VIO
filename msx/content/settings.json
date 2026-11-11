@@ -1,0 +1,88 @@
+{
+  "headline": "Настройки",
+  "type": "pages",
+  "compress": true,
+  "pages": [
+    {
+      "items": [
+        {
+          "type": "button",
+          "layout": "0,0,2,1",
+          "label": "VIO",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+        },
+        {
+          "type": "button",
+          "layout": "2,0,2,1",
+          "label": "Главная",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+        },
+        {
+          "type": "button",
+          "layout": "4,0,2,1",
+          "label": "Фильмы",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/movies.json"
+        },
+        {
+          "type": "button",
+          "layout": "6,0,2,1",
+          "label": "Сериалы",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/series.json"
+        },
+        {
+          "type": "button",
+          "layout": "8,0,2,1",
+          "label": "ТВ",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/tv.json"
+        },
+        {
+          "type": "button",
+          "layout": "10,0,3,1",
+          "label": "Настройки",
+          "color": "msx-blue",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/settings.json"
+        },
+        {
+          "type": "button",
+          "layout": "13,0,3,1",
+          "label": "Поиск",
+          "icon": "search",
+          "color": "msx-glass",
+          "action": "info:Поиск появится после подключения первого каталога."
+        },
+        {
+          "type": "button",
+          "layout": "0,2,5,4",
+          "label": "Источники",
+          "title": "Личные и лицензированные каталоги",
+          "icon": "source",
+          "color": "msx-glass",
+          "action": "info:Источники добавляются через адаптеры VIO."
+        },
+        {
+          "type": "button",
+          "layout": "5,2,5,4",
+          "label": "Диагностика",
+          "title": "VIO загружается прямо с GitHub",
+          "icon": "monitor-heart",
+          "color": "msx-glass",
+          "action": "info:Статическая версия VIO. Отдельный сервер не требуется. API и защищённая админка в этом режиме не работают."
+        },
+        {
+          "type": "button",
+          "layout": "10,2,6,4",
+          "label": "О VIO",
+          "title": "Версия 0.2.0{br}Независимая оболочка для Media Station X",
+          "icon": "info",
+          "color": "msx-blue",
+          "action": "info:VIO — открытый независимый проект."
+        }
+      ]
+    }
+  ]
+}

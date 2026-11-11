@@ -1,0 +1,88 @@
+{
+  "headline": "ТВ",
+  "type": "pages",
+  "compress": true,
+  "pages": [
+    {
+      "items": [
+        {
+          "type": "button",
+          "layout": "0,0,2,1",
+          "label": "VIO",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+        },
+        {
+          "type": "button",
+          "layout": "2,0,2,1",
+          "label": "Главная",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+        },
+        {
+          "type": "button",
+          "layout": "4,0,2,1",
+          "label": "Фильмы",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/movies.json"
+        },
+        {
+          "type": "button",
+          "layout": "6,0,2,1",
+          "label": "Сериалы",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/series.json"
+        },
+        {
+          "type": "button",
+          "layout": "8,0,2,1",
+          "label": "ТВ",
+          "color": "msx-blue",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/tv.json"
+        },
+        {
+          "type": "button",
+          "layout": "10,0,3,1",
+          "label": "Настройки",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/settings.json"
+        },
+        {
+          "type": "button",
+          "layout": "13,0,3,1",
+          "label": "Поиск",
+          "icon": "search",
+          "color": "msx-glass",
+          "action": "info:Поиск появится после подключения первого каталога."
+        },
+        {
+          "type": "button",
+          "layout": "0,2,7,5",
+          "label": "iEdem TV",
+          "title": "Подключение по личному ключу доступа{br}{br}Нажмите, затем введите ключ из раздела «Доступ» вашего кабинета iEdem.",
+          "icon": "live-tv",
+          "color": "msx-blue",
+          "action": "link:https://ott-play.com/edem/"
+        },
+        {
+          "type": "button",
+          "layout": "7,2,5,5",
+          "label": "Как подключить",
+          "title": "1. Откройте кабинет iEdem{br}2. Скопируйте ключ доступа{br}3. Нажмите iEdem TV и вставьте ключ{br}{br}Ключ хранится в плеере и не попадает в VIO или GitHub.",
+          "icon": "vpn-key",
+          "color": "msx-glass",
+          "action": "info:Используйте только собственную активную подписку iEdem. Никому не сообщайте ключ доступа."
+        },
+        {
+          "type": "button",
+          "layout": "12,2,4,5",
+          "label": "Открыть кабинет",
+          "title": "Подписка, ключ доступа и выбор сервера",
+          "icon": "account-circle",
+          "color": "msx-glass",
+          "action": "link:https://iedem.tv/playlist"
+        }
+      ]
+    }
+  ]
+}

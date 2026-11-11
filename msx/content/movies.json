@@ -1,0 +1,133 @@
+{
+  "headline": "Фильмы",
+  "type": "pages",
+  "compress": true,
+  "pages": [
+    {
+      "items": [
+        {
+          "type": "button",
+          "layout": "0,0,2,1",
+          "label": "VIO",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+        },
+        {
+          "type": "button",
+          "layout": "2,0,2,1",
+          "label": "Главная",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+        },
+        {
+          "type": "button",
+          "layout": "4,0,2,1",
+          "label": "Фильмы",
+          "color": "msx-blue",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/movies.json"
+        },
+        {
+          "type": "button",
+          "layout": "6,0,2,1",
+          "label": "Сериалы",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/series.json"
+        },
+        {
+          "type": "button",
+          "layout": "8,0,2,1",
+          "label": "ТВ",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/tv.json"
+        },
+        {
+          "type": "button",
+          "layout": "10,0,3,1",
+          "label": "Настройки",
+          "color": "msx-glass",
+          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/settings.json"
+        },
+        {
+          "type": "button",
+          "layout": "13,0,3,1",
+          "label": "Поиск",
+          "icon": "search",
+          "color": "msx-glass",
+          "action": "info:Поиск появится после подключения первого каталога."
+        },
+        {
+          "type": "button",
+          "layout": "0,1,2,1",
+          "label": "Популярное",
+          "color": "msx-blue",
+          "action": "info:Популярные материалы"
+        },
+        {
+          "type": "button",
+          "layout": "2,1,2,1",
+          "label": "Новинки",
+          "color": "msx-glass",
+          "action": "info:Новые поступления"
+        },
+        {
+          "type": "button",
+          "layout": "4,1,2,1",
+          "label": "Жанры",
+          "color": "msx-glass",
+          "action": "info:Фильтр по жанрам"
+        },
+        {
+          "layout": "0,2,2,6",
+          "label": "Новая орбита",
+          "title": "Фантастика · 6 серий",
+          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-orbit.png",
+          "action": "info:Новая орбита{br}Фантастика · 6 серий{br}{br}Демонстрационная карточка VIO."
+        },
+        {
+          "layout": "2,2,2,6",
+          "label": "Северный трон",
+          "title": "Фэнтези · 9 серий",
+          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-north.png",
+          "action": "info:Северный трон{br}Фэнтези · 9 серий{br}{br}Демонстрационная карточка VIO."
+        },
+        {
+          "layout": "4,2,2,6",
+          "label": "Город дождя",
+          "title": "Детектив · 8 серий",
+          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-noir.png",
+          "action": "info:Город дождя{br}Детектив · 8 серий{br}{br}Демонстрационная карточка VIO."
+        },
+        {
+          "layout": "6,2,2,6",
+          "label": "Синтез",
+          "title": "Фантастика · 7 серий",
+          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-orbit.png",
+          "action": "info:Синтез{br}Фантастика · 7 серий{br}{br}Демонстрационная карточка VIO."
+        },
+        {
+          "layout": "8,2,2,6",
+          "label": "Лесные истории",
+          "title": "Семейный · 10 серий",
+          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-robot.png",
+          "action": "info:Лесные истории{br}Семейный · 10 серий{br}{br}Демонстрационная карточка VIO."
+        },
+        {
+          "layout": "10,2,2,6",
+          "label": "Северный свет",
+          "title": "Документальный · 5 серий",
+          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-north.png",
+          "action": "info:Северный свет{br}Документальный · 5 серий{br}{br}Демонстрационная карточка VIO."
+        },
+        {
+          "type": "button",
+          "layout": "12,2,4,6",
+          "label": "Новая орбита",
+          "title": "Фантастика · 6 серий{br}{br}История, которая начинается с одного неверного решения.{br}{br}{ico:play-arrow} Подробнее",
+          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-orbit.png",
+          "color": "msx-glass",
+          "action": "info:Новая орбита{br}Фантастика · 6 серий{br}{br}Это демонстрационная карточка без видеопотока."
+        }
+      ]
+    }
+  ]
+}

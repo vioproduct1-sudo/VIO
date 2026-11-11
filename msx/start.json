@@ -1,0 +1,5 @@
+{
+  "name": "VIO",
+  "version": "0.2.0",
+  "parameter": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+}
