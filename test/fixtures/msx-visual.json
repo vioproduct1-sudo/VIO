@@ -34,13 +34,12 @@
         },
         {
           "id": "ch_test1",
-          "type": "default",
+          "type": "control",
+          "compress": false,
           "layout": "0,2,8,1",
           "focus": false,
-          "headline": "01  Тестовый сигнал 1",
-          "text": "Проверка MSX",
+          "label": "01  Тестовый сигнал 1",
           "color": "#152332",
-          "truncation": "headline|text",
           "description": "Телепрограмма не подключена{br}OK — полный экран. Назад — список.",
           "playerLabel": "Тестовый сигнал 1",
           "action": "video:plugin:https://msx.benzac.de/plugins/pip.html?loop=1&url=https%3A%2F%2Fmsx.benzac.de%2Fmedia%2Fvideo1.mp4",
@@ -50,8 +49,8 @@
             "data": {
               "cmd": "selected",
               "id": "test1",
-              "headline": "{context:headline}",
-              "text": "{context:description}"
+              "headline": "Тестовый сигнал 1",
+              "text": "Проверка MSX{br}OK — полный экран. Назад — список."
             }
           },
           "live": {
@@ -73,13 +72,12 @@
         },
         {
           "id": "ch_test2",
-          "type": "default",
+          "type": "control",
+          "compress": false,
           "layout": "0,3,8,1",
           "focus": false,
-          "headline": "02  Тестовый сигнал 2",
-          "text": "Проверка MSX",
+          "label": "02  Тестовый сигнал 2",
           "color": "#152332",
-          "truncation": "headline|text",
           "description": "Телепрограмма не подключена{br}OK — полный экран. Назад — список.",
           "playerLabel": "Тестовый сигнал 2",
           "action": "video:plugin:https://msx.benzac.de/plugins/pip.html?loop=1&url=https%3A%2F%2Fmsx.benzac.de%2Fmedia%2Fvideo2.mp4",
@@ -89,8 +87,8 @@
             "data": {
               "cmd": "selected",
               "id": "test2",
-              "headline": "{context:headline}",
-              "text": "{context:description}"
+              "headline": "Тестовый сигнал 2",
+              "text": "Проверка MSX{br}OK — полный экран. Назад — список."
             }
           },
           "live": {
