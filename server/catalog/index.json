@@ -1,0 +1,16 @@
+{
+  "name": "Шаблон VIO",
+  "version": 1,
+  "streamBase": "http://099b1e18.edemist.com",
+  "count": 2543,
+  "parts": [
+    "part-0.json",
+    "part-1.json",
+    "part-2.json",
+    "part-3.json",
+    "part-4.json",
+    "part-5.json",
+    "part-6.json",
+    "part-7.json"
+  ]
+}

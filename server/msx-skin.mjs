@@ -10,7 +10,7 @@ export function renderSkin({channels=[],selected='',favorites=[],category='',onl
  out+=rect(1880,29,74,25,'#0d1723','#253243',4)+text(1889,44,'⚙ Настройки',9)+rect(1960,29,74,25,'#0d1723','#253243',4)+text(1967,44,'Администратор',8);
  const navBoxes={all:[12,29,85,25],favorites:[106,29,84,25],categories:[194,29,100,25],settings:[1880,29,74,25],admin:[1960,29,74,25]};if(navBoxes[nav])out+=rect(...navBoxes[nav],'none','#79ebce',4);
  out+='<path d="M12 61H2034" stroke="#253243"/>'+text(12,75,onlyFavorites?'Любимые каналы':category||'Все телеканалы',8)+text(790,75,'Каналов: '+channels.length,7,'#9aaabd');
- out+='<g clip-path="url(#list)">';items.forEach((c,i)=>{const y=g.listY+i*(g.rowHeight+g.rowGap),active=c.id===selected;out+=rect(g.listX,y,g.listWidth,g.rowHeight,active?'#15302f':'#101b29',active?'#79ebce':'#192839',5)+text(21,y+22,String(c.number||i+1).padStart(2,'0'),6,'#9aaabd')+text(39,y+(large?45:18),c.name,large?28:12)+text(39,y+(large?80:31),c.now?.title||c.category||'Общие',large?18:7,'#9aaabd');if(fav.has(c.id))out+=text(837,y+24,'★',12,'#79ebce');});out+='</g>';
+ out+='<g clip-path="url(#list)">';items.forEach((c,i)=>{const y=g.listY+i*(g.rowHeight+g.rowGap),active=c.id===selected;out+=rect(g.listX,y,g.listWidth,g.rowHeight,active?'#15302f':'#101b29',active?'#79ebce':'#192839',5)+text(17,y+22,String(c.number||i+1).padStart(3,'0'),9,'#9aaabd')+text(51,y+(large?45:18),c.name,large?28:12)+text(39,y+(large?80:31),c.now?.title||c.category||'Общие',large?18:7,'#9aaabd');if(fav.has(c.id))out+=text(837,y+24,'★',12,'#79ebce');});out+='</g>';
  if(!items.length)out+=text(39,124,'Подключите ваши телеканалы',16)+text(39,151,'Администратор добавляет плейлист один раз.',11,'#9aaabd');
  out+=rect(g.video.x,g.video.y,g.video.w,g.video.h,'#05080d','#253243',7)+rect(888,78,76,14,'#0a1019','none',3)+text(895,88,'● ПРЯМОЙ ЭФИР',5,'#79ebce');
  out+=text(12,1045,'VIO',5,'#d8e3ed','bold')+text(31,1045,'Просто включите любимый канал',5,'#9aaabd')+text(1960,1045,'Подключение',5,'#9aaabd');return out+'</g></svg>';
@@ -47,5 +47,5 @@ export function channelSkin(channels,options={}){
  const filtered=channels.filter(c=>(!onlyFavorites||favorites.includes(c.id))&&(!category||c.category===category));
  const rows=large?8:22,current=Math.max(0,filtered.findIndex(c=>c.id===last)),start=Math.floor(current/rows)*rows;
  const time=new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
- return renderSkin({channels:filtered.slice(start,start+rows).map(c=>({...c,number:channels.indexOf(c)+1})),selected:filtered[current]?.id,favorites,onlyFavorites,category,clock:time,video:true,large,nav});
+ return renderSkin({channels:filtered.slice(start,start+rows).map(c=>({...c,number:c.number||channels.indexOf(c)+1})),selected:filtered[current]?.id,favorites,onlyFavorites,category,clock:time,video:true,large,nav});
 }

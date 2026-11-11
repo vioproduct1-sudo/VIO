@@ -25,7 +25,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.Executors
 
-data class Channel(val id:String,val name:String,val category:String,val url:String,val now:String,val next:String)
+data class Channel(val id:String,val name:String,val category:String,val url:String,val now:String,val next:String,val number:Int=0)
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 class MainActivity : Activity() {
  private val prefs by lazy {getSharedPreferences("vio",0)}
@@ -83,14 +83,14 @@ class MainActivity : Activity() {
   status=text("Выберите канал. Повторное OK — полный экран.",13f,0xffffd49a.toInt());details.addView(status)
  }
  private fun render(){list.removeAllViews();val shown=channels.filter{(category=="Все категории"||it.category==category)&&(!favoritesOnly||favorites.contains(it.id))};shown.forEach{c->
-  val label=String.format("%02d",channels.indexOf(c)+1)+"   "+c.name+(if(favorites.contains(c.id))"  ★" else "")+"\n"+(c.now.ifEmpty{c.category})
+  val label=String.format("%03d",if(c.number>0)c.number else channels.indexOf(c)+1)+"   "+c.name+(if(favorites.contains(c.id))"  ★" else "")+"\n"+(c.now.ifEmpty{c.category})
   button(label,list){if(current?.id==c.id)setFull(true) else play(c)}.apply{maxLines=3}
  };if(shown.isEmpty()){list.addView(text(if(channels.isEmpty())"Подключите ваши телеканалы" else "В списке пока пусто",23f).apply{setPadding(dp(14),dp(25),dp(14),dp(14))});if(channels.isEmpty())button("Подключить плейлист",list){admin()}}
   current?.let{star.text=if(favorites.contains(it.id))"★ В избранном" else "☆ Избранное"}
  }
  private fun load(){val base=prefs.getString("server","")!!;if(base.isEmpty()){status.text="Откройте настройки и укажите адрес сервера VIO";render();return};if(loading)return;loading=true;val id=++generation;status.text="Подключение…"
   worker.execute{try{val conn=URL(base.trimEnd('/')+"/api/channels").openConnection() as HttpURLConnection;conn.connectTimeout=10000;conn.readTimeout=15000;val data=try{if(conn.responseCode!=200)error("HTTP ${conn.responseCode}");conn.inputStream.bufferedReader().use{it.readText()}}finally{conn.disconnect()}
-   val arr=JSONObject(data).getJSONArray("channels");val result=(0 until arr.length()).map{val c=arr.getJSONObject(it);Channel(c.getString("id"),c.getString("name"),c.getString("category"),c.getString("url"),c.optJSONObject("now")?.optString("title")?:"",c.optJSONObject("next")?.optString("title")?:"")}
+   val arr=JSONObject(data).getJSONArray("channels");val result=(0 until arr.length()).map{val c=arr.getJSONObject(it);Channel(c.getString("id"),c.getString("name"),c.getString("category"),c.getString("url"),c.optJSONObject("now")?.optString("title")?:"",c.optJSONObject("next")?.optString("title")?:"",c.optInt("number",it+1))}
    runOnUiThread{if(!destroyed&&id==generation){channels=result;loading=false;status.text="Сервер подключён · ${channels.size} каналов";render();if(current==null&&prefs.getBoolean("resume",true))channels.find{it.id==prefs.getString("last","")}?.let{play(it)}}}
   }catch(e:Exception){runOnUiThread{if(!destroyed&&id==generation){loading=false;status.text="Нет связи с сервером VIO. Проверьте адрес и сеть.";render()}}}}
  }
