@@ -16,6 +16,35 @@ VIO — независимая русскоязычная универсальн
 - запуск iEdem из вкладки «ТВ» с вводом личного ключа доступа в плеере;
 - TypeScript, встроенный тестовый раннер Node.js, Docker Compose и GitHub Actions.
 
+## Подключение прямо из GitHub — без своего сервера
+
+В Media Station X откройте **Settings → Start Parameter → Setup** (Настройки → Стартовый параметр → Настройка) и введите:
+
+```text
+id:igd:vioiptv
+```
+
+Подтвердите установку VIO. При следующем открытии MSX интерфейс загрузится автоматически. Используйте актуальную версию Media Station X (с поддержкой ID-параметров).
+
+Короткая ссылка [is.gd/vioiptv](https://is.gd/vioiptv) ведёт на [стартовый JSON в GitHub](https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/start.json). Страницы берутся из ветки `main`; отдельный сервер Node.js для этой версии не нужен. Доступность зависит от GitHub и is.gd.
+
+[Открыть VIO в веб-версии Media Station X](https://msx.benzac.de/?start=content%3Ahttps%3A%2F%2Fraw.githubusercontent.com%2Fvioproduct1-sudo%2FVIO%2Fmain%2Fmsx%2Fcontent%2Fhome.json&alias=VIO)
+
+[Скачать исходники и JSON ZIP-архивом](https://github.com/vioproduct1-sudo/VIO/archive/refs/heads/main.zip). Готовый пакет **VIO-Media-Station-X** доступен в успешных запусках [MSX GitHub](https://github.com/vioproduct1-sudo/VIO/actions/workflows/msx.yml) → Artifacts (для скачивания артефактов требуется вход в GitHub). Для подключения на телевизоре скачивать ZIP не нужно.
+
+**Границы этой версии:** опубликована существующая оболочка VIO, включая демонстрационные карточки и запуск внешнего ТВ-плеера. Самостоятельное IPTV с M3U/EPG, защищённая админка и Android APK этим изменением не реализованы. GitHub раздаёт только статические страницы: он не выполняет API и не хранит пользовательские настройки сервера. Личные плейлисты, ключи и пароли нельзя размещать в публичных JSON. Воспроизведение потоков и управление пультом требуют проверки на реальном телевизоре.
+
+### Обновление опубликованных страниц
+
+После изменения `src/msx/builders.ts` на Node.js 24 выполните:
+
+```bash
+node scripts/export-msx.mjs
+node --test test/static-msx.test.mjs
+```
+
+Закоммитьте обновлённую папку `msx/` вместе с исходниками. Workflow `MSX GitHub` проверяет совпадение JSON с генератором, ссылки и собирает скачиваемый пакет. Для экспорта под другой адрес используйте `MSX_BASE_URL=https://example.org/VIO node scripts/export-msx.mjs target`.
+
 ## Быстрый старт
 
 Требуется Node.js 20 или новее.
