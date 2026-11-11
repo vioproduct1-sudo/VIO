@@ -15,14 +15,15 @@
         {
           "type": "button",
           "layout": "0,1,5,1",
-          "label": "Открыть телевидение",
-          "action": "link:http://192.168.8.222:8088/"
+          "label": "VIO · Загрузить телеканалы в MSX",
+          "execute": true,
+          "action": "content:request:interaction:home@http://192.168.8.222:8088/msx/interaction.html"
         },
         {
           "type": "button",
           "layout": "0,2,5,1",
-          "label": "Администратор",
-          "action": "link:http://192.168.8.222:8088/admin"
+          "label": "Администрирование",
+          "action": "info:Админка доступна с компьютера: http://192.168.8.222:8088/admin. Просмотр телеканалов работает внутри Media Station X."
         },
         {
           "type": "button",

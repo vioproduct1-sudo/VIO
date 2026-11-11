@@ -16,7 +16,7 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run build
       - run: npm test
-      - run: sh -n deploy/install.sh
+      - run: sh -n deploy/install.sh && sh -n deploy/update.sh
       - run: npm audit --omit=dev --audit-level=moderate
       - run: docker build -t vio:ci .
       - name: Подготовить пакет для NAS

@@ -1,0 +1,146 @@
+{
+  "headline": "VIO · Проверка нативного экрана MSX",
+  "flag": "pip",
+  "transparent": 2,
+  "type": "pages",
+  "compress": true,
+  "navigationSpan": 8,
+  "pages": [
+    {
+      "items": [
+        {
+          "type": "button",
+          "layout": "0,0,4,1",
+          "label": "Телеканалы",
+          "action": "info:Тестовый экран"
+        },
+        {
+          "type": "button",
+          "layout": "4,0,4,1",
+          "label": "★ Избранное",
+          "action": "info:Тестовый экран"
+        },
+        {
+          "type": "button",
+          "layout": "0,1,4,1",
+          "label": "Категории",
+          "action": "info:Тестовый экран"
+        },
+        {
+          "type": "button",
+          "layout": "4,1,4,1",
+          "label": "Настройки",
+          "action": "info:Тестовый экран"
+        },
+        {
+          "id": "ch_test1",
+          "type": "default",
+          "layout": "0,2,8,1",
+          "focus": false,
+          "headline": "01  Тестовый сигнал 1",
+          "text": "Проверка MSX",
+          "color": "#152332",
+          "truncation": "headline|text",
+          "description": "Телепрограмма не подключена{br}OK — полный экран. Назад — список.",
+          "playerLabel": "Тестовый сигнал 1",
+          "action": "video:plugin:https://msx.benzac.de/plugins/pip.html?loop=1&url=https%3A%2F%2Fmsx.benzac.de%2Fmedia%2Fvideo1.mp4",
+          "selection": {
+            "important": true,
+            "action": "[update:content:overlay:details|delay:autoplay:1:autoplay]",
+            "data": {
+              "cmd": "selected",
+              "id": "test1",
+              "headline": "{context:headline}",
+              "text": "{context:description}"
+            }
+          },
+          "live": {
+            "type": "playback",
+            "running": {
+              "stamp": "В ЭФИРЕ"
+            },
+            "action": "player:show"
+          },
+          "properties": {
+            "control:type": "extended",
+            "control:transparent": "true",
+            "control:reuse": "retain",
+            "control:timeout": "3",
+            "trigger:active": "event:pip:disable",
+            "trigger:inactive": "event:pip:validate",
+            "trigger:execute": "delay:autoplay:cancel"
+          }
+        },
+        {
+          "id": "ch_test2",
+          "type": "default",
+          "layout": "0,3,8,1",
+          "focus": false,
+          "headline": "02  Тестовый сигнал 2",
+          "text": "Проверка MSX",
+          "color": "#152332",
+          "truncation": "headline|text",
+          "description": "Телепрограмма не подключена{br}OK — полный экран. Назад — список.",
+          "playerLabel": "Тестовый сигнал 2",
+          "action": "video:plugin:https://msx.benzac.de/plugins/pip.html?loop=1&url=https%3A%2F%2Fmsx.benzac.de%2Fmedia%2Fvideo2.mp4",
+          "selection": {
+            "important": true,
+            "action": "[update:content:overlay:details|delay:autoplay:1:autoplay]",
+            "data": {
+              "cmd": "selected",
+              "id": "test2",
+              "headline": "{context:headline}",
+              "text": "{context:description}"
+            }
+          },
+          "live": {
+            "type": "playback",
+            "running": {
+              "stamp": "В ЭФИРЕ"
+            },
+            "action": "player:show"
+          },
+          "properties": {
+            "control:type": "extended",
+            "control:transparent": "true",
+            "control:reuse": "retain",
+            "control:timeout": "3",
+            "trigger:active": "event:pip:disable",
+            "trigger:inactive": "event:pip:validate",
+            "trigger:execute": "delay:autoplay:cancel"
+          }
+        },
+        {
+          "type": "button",
+          "layout": "9,7,4,1",
+          "label": "★ Добавить / убрать",
+          "action": "info:Это изолированная проверка отображения MSX",
+          "data": {
+            "cmd": "favorite"
+          }
+        },
+        {
+          "type": "button",
+          "layout": "13,7,3,1",
+          "label": "Во весь экран",
+          "action": "player:show"
+        }
+      ]
+    }
+  ],
+  "underlay": {
+    "action": "event:pip:validate"
+  },
+  "overlay": {
+    "items": [
+      {
+        "id": "details",
+        "type": "space",
+        "layout": "9,4,7,2",
+        "offset": "-0.5,0.5,0.5,-0.5",
+        "headline": "VIO",
+        "text": "Выберите канал слева. Просмотр появится справа."
+      }
+    ]
+  }
+}
