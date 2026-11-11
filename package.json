@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node server/server.mjs",
     "test": "node --test test/*.test.mjs",
-    "build": "node scripts/build-msx.mjs"
+    "build": "node scripts/build-msx.mjs",
+    "build:direct": "node scripts/build-direct.mjs"
   },
   "engines": {
     "node": ">=22"
@@ -16,5 +17,8 @@
     "fast-xml-parser": "5.12.0",
     "hls.js": "1.7.4",
     "saxes": "6.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
   }
 }

@@ -15,6 +15,7 @@ jobs:
           node-version: '24'
       - run: npm ci --ignore-scripts
       - run: npm run build
+      - run: npm run build:direct
       - run: npm test
       - run: sh -n deploy/install.sh && sh -n deploy/update.sh
       - run: npm audit --omit=dev --audit-level=moderate

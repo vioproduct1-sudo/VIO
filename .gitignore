@@ -8,3 +8,5 @@ node_modules/
 web/vendor/
 *.zip
 *.tar.gz
+
+_site/
