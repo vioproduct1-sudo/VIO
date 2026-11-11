@@ -1,0 +1,239 @@
+{
+  "name": "VIO",
+  "headline": "",
+  "type": "pages",
+  "flag": "pip",
+  "transparent": 1,
+  "overlay": {
+    "items": [
+      {
+        "id": "skin",
+        "type": "space",
+        "layout": "0,0,12,6",
+        "offset": "-0.75,-1,1.5,1.666667",
+        "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/test/fixtures/msx-nav-5.svg",
+        "imageFiller": "default"
+      }
+    ]
+  },
+  "pages": [
+    {
+      "items": [
+        {
+          "id": "ref0",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 1",
+          "layout": "1,0,1,1",
+          "offset": "-1.671875,-0.402778,4.700521,-0.555556"
+        },
+        {
+          "id": "ref1",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 2",
+          "selection": {
+            "important": true,
+            "action": "[focus:clear:pip|replace:content:pip:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/test/fixtures/msx-nav-1.json]"
+          },
+          "layout": "2,0,1,1",
+          "offset": "-2.671875,-0.097222,4.700521,-0.555556"
+        },
+        {
+          "id": "ref2",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 3",
+          "selection": {
+            "important": true,
+            "action": "[focus:clear:pip|replace:content:pip:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/test/fixtures/msx-nav-2.json]"
+          },
+          "layout": "3,0,1,1",
+          "offset": "-3.671875,0.208333,4.700521,-0.555556"
+        },
+        {
+          "id": "ref3",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 4",
+          "selection": {
+            "important": true,
+            "action": "[focus:clear:pip|replace:content:pip:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/test/fixtures/msx-nav-3.json]"
+          },
+          "layout": "4,0,1,1",
+          "offset": "-4.671875,0.513889,4.700521,-0.555556"
+        },
+        {
+          "id": "ref4",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 5",
+          "selection": {
+            "important": true,
+            "action": "[focus:clear:pip|replace:content:pip:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/test/fixtures/msx-nav-4.json]"
+          },
+          "layout": "0,1,1,1",
+          "offset": "-0.671875,-0.180556,4.700521,-0.555556"
+        },
+        {
+          "id": "ref5",
+          "type": "default",
+          "color": "transparent",
+          "focus": true,
+          "action": "info:Выбран канал 6",
+          "layout": "0,2,1,1",
+          "offset": "-0.671875,-0.875,4.700521,-0.555556"
+        },
+        {
+          "id": "ref6",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 7",
+          "layout": "0,3,1,1",
+          "offset": "-0.671875,-1.569444,4.700521,-0.555556"
+        },
+        {
+          "id": "ref7",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 8",
+          "layout": "5,0,1,1",
+          "offset": "-5.671875,1.736111,4.700521,-0.555556"
+        },
+        {
+          "id": "ref8",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 9",
+          "layout": "6,0,1,1",
+          "offset": "-6.671875,2.041667,4.700521,-0.555556"
+        },
+        {
+          "id": "ref9",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 10",
+          "layout": "7,0,1,1",
+          "offset": "-7.671875,2.347222,4.700521,-0.555556"
+        },
+        {
+          "id": "ref10",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 11",
+          "layout": "1,1,1,1",
+          "offset": "-1.671875,1.652778,4.700521,-0.555556"
+        },
+        {
+          "id": "ref11",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 12",
+          "layout": "2,1,1,1",
+          "offset": "-2.671875,1.958333,4.700521,-0.555556"
+        },
+        {
+          "id": "ref12",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 13",
+          "layout": "3,1,1,1",
+          "offset": "-3.671875,2.263889,4.700521,-0.555556"
+        },
+        {
+          "id": "ref13",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 14",
+          "layout": "4,1,1,1",
+          "offset": "-4.671875,2.569444,4.700521,-0.555556"
+        },
+        {
+          "id": "ref14",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 15",
+          "layout": "5,1,1,1",
+          "offset": "-5.671875,2.875,4.700521,-0.555556"
+        },
+        {
+          "id": "ref15",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 16",
+          "layout": "6,1,1,1",
+          "offset": "-6.671875,3.180556,4.700521,-0.555556"
+        },
+        {
+          "id": "ref16",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 17",
+          "layout": "7,1,1,1",
+          "offset": "-7.671875,3.486111,4.700521,-0.555556"
+        },
+        {
+          "id": "ref17",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 18",
+          "layout": "1,2,1,1",
+          "offset": "-1.671875,2.791667,4.700521,-0.555556"
+        },
+        {
+          "id": "ref18",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 19",
+          "layout": "2,2,1,1",
+          "offset": "-2.671875,3.097222,4.700521,-0.555556"
+        },
+        {
+          "id": "ref19",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 20",
+          "layout": "3,2,1,1",
+          "offset": "-3.671875,3.402778,4.700521,-0.555556"
+        },
+        {
+          "id": "ref20",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 21",
+          "layout": "4,2,1,1",
+          "offset": "-4.671875,3.708333,4.700521,-0.555556"
+        },
+        {
+          "id": "ref21",
+          "type": "default",
+          "color": "transparent",
+          "focus": false,
+          "action": "info:Выбран канал 22",
+          "layout": "5,2,1,1",
+          "offset": "-5.671875,4.013889,4.700521,-0.555556"
+        }
+      ]
+    }
+  ]
+}

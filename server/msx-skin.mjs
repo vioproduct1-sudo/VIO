@@ -16,3 +16,8 @@ export function renderSkin({channels=[],selected='',favorites=[],category='',onl
 }
 // Native hit targets remain real MSX items; the visual layer is rendered above them.
 export function skinTarget(index,{x,y,w,h},data){const gx=index%8,gy=Math.floor(index/8);const px=x*1280/2048,py=y*720/1080,pw=w*1280/2048,ph=h*720/1080;return{...data,layout:`${gx},${gy},1,1`,offset:[(px-72)/96-gx,(py-96)/96-gy,(pw-80)/96,(ph-80)/96].map(n=>Number(n.toFixed(6))).join(',')};}
+
+// Keep previous/current/next on one logical column. MSX navigates its logical
+// grid, irrespective of visual offsets. Rebuild after selection to keep this
+// invariant while rendering all 22 rows and retaining real mouse hit targets.
+export function cursorSlots(count,current){let spare=0;return Array.from({length:count},(_,i)=>i===current?16:i===current-1?8:i===current+1?24:(()=>{const n=spare++;return 1+n%7+Math.floor(n/7)*8;})());}
