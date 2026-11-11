@@ -33,7 +33,7 @@ export function skinChannels(channels,base,options={}){
  const items=visible.map((c,i)=>skinTarget(slots[i],{x:12,y:86+i*step,w:850,h:height},{id:'ch_'+c.id,type:'default',color:'transparent',focus:i===local,playerLabel:c.name,
   action:fallback?'video:'+c.url:'video:plugin:'+base+'/msx/player.html?id='+encodeURIComponent(c.id)+'&skin=1',
   selection:i===local?{important:true,action:'[update:content:overlay:skin|interaction:commit|delay:autoplay:1:autoplay]',data:{cmd:'selected',id:c.id,image}}:{important:true,action:move(c.id)},
-  properties:{'control:type':'extended','control:transparent':'true','control:reuse':'retain','control:timeout':'3','trigger:active':'event:pip:disable','trigger:inactive':'event:pip:validate','trigger:execute':'delay:autoplay:cancel'}
+  properties:{'control:type':'extended','control:transparent':'true','control:reuse':'retain','control:timeout':'3','trigger:active':'event:pip:disable','trigger:inactive':'event:pip:validate','trigger:execute':'delay:autoplay:cancel','trigger:back':'player:content'}
  }));
  const nav=[['all',17,{x:12,y:29,w:85,h:25},'content:request:interaction:all'],['favorites',25,{x:110,y:29,w:80,h:25},'content:request:interaction:favorites'],['categories',33,{x:194,y:29,w:100,h:25},'panel:request:interaction:categories'],['settings',9,{x:1880,y:29,w:74,h:25},'panel:request:interaction:settings'],['admin',1,{x:1960,y:29,w:74,h:25},'info:Администратор: '+base+'/admin']];
  nav.forEach(([id,slot,box,action])=>items.push(skinTarget(slot,box,{id,type:'default',color:'transparent',action,selection:{important:true,action:'update:content:overlay:skin',data:{image:image+'&nav='+id}}})));
