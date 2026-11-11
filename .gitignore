@@ -1,8 +1,10 @@
-node_modules/
-dist/
-coverage/
+data/
 .env
-.env.*
-!.env.example
-*.log
-.DS_Store
+.gradle/
+**/build/
+local.properties
+*.keystore
+node_modules/
+web/vendor/
+*.zip
+*.tar.gz

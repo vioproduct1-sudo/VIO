@@ -1,131 +1,47 @@
 {
-  "headline": "Фильмы",
+  "headline": "VIO · Телевидение",
   "type": "pages",
-  "compress": true,
+  "compress": false,
   "pages": [
     {
       "items": [
         {
-          "type": "button",
-          "layout": "0,0,2,1",
-          "label": "VIO",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+          "type": "space",
+          "layout": "0,0,12,1",
+          "headline": "VIO",
+          "text": "ТЕЛЕКАНАЛЫ · ИЗБРАННОЕ · ПРОСТОЕ УПРАВЛЕНИЕ",
+          "color": "msx-black"
         },
         {
           "type": "button",
-          "layout": "2,0,2,1",
-          "label": "Главная",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+          "layout": "0,1,5,1",
+          "label": "Открыть телевидение",
+          "action": "link:http://192.168.8.222:8088/"
         },
         {
           "type": "button",
-          "layout": "4,0,2,1",
-          "label": "Фильмы",
-          "color": "msx-blue",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/movies.json"
+          "layout": "0,2,5,1",
+          "label": "Администратор",
+          "action": "link:http://192.168.8.222:8088/admin"
         },
         {
           "type": "button",
-          "layout": "6,0,2,1",
-          "label": "Сериалы",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/series.json"
+          "layout": "0,3,5,1",
+          "label": "Как подключить",
+          "action": "info:VIO работает с вашим сервером в домашней сети.{br}1. Запустите контейнер VIO на NAS.{br}2. Администратор подключает M3U и EPG.{br}3. Откройте телевидение и выберите канал.{br}{br}Адрес VIO: http://192.168.8.222:8088"
         },
         {
-          "type": "button",
-          "layout": "8,0,2,1",
-          "label": "ТВ",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/tv.json"
+          "type": "space",
+          "layout": "6,1,6,3",
+          "headline": "Ваши каналы.{br}Большой экран.",
+          "text": "Список каналов и просмотр справа.{br}Крупные кнопки. Управление пультом.{br}Последний канал и избранное.",
+          "color": "msx-black"
         },
         {
-          "type": "button",
-          "layout": "10,0,3,1",
-          "label": "Настройки",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/settings.json"
-        },
-        {
-          "type": "button",
-          "layout": "13,0,3,1",
-          "label": "Поиск",
-          "icon": "search",
-          "color": "msx-glass",
-          "action": "info:Поиск появится после подключения первого каталога."
-        },
-        {
-          "type": "button",
-          "layout": "0,1,2,1",
-          "label": "Популярное",
-          "color": "msx-blue",
-          "action": "info:Популярные материалы"
-        },
-        {
-          "type": "button",
-          "layout": "2,1,2,1",
-          "label": "Новинки",
-          "color": "msx-glass",
-          "action": "info:Новые поступления"
-        },
-        {
-          "type": "button",
-          "layout": "4,1,2,1",
-          "label": "Жанры",
-          "color": "msx-glass",
-          "action": "info:Фильтр по жанрам"
-        },
-        {
-          "layout": "0,2,2,6",
-          "label": "Новая орбита",
-          "title": "Фантастика · 6 серий",
-          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-orbit.png",
-          "action": "info:Новая орбита{br}Фантастика · 6 серий{br}{br}Демонстрационная карточка VIO."
-        },
-        {
-          "layout": "2,2,2,6",
-          "label": "Северный трон",
-          "title": "Фэнтези · 9 серий",
-          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-north.png",
-          "action": "info:Северный трон{br}Фэнтези · 9 серий{br}{br}Демонстрационная карточка VIO."
-        },
-        {
-          "layout": "4,2,2,6",
-          "label": "Город дождя",
-          "title": "Детектив · 8 серий",
-          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-noir.png",
-          "action": "info:Город дождя{br}Детектив · 8 серий{br}{br}Демонстрационная карточка VIO."
-        },
-        {
-          "layout": "6,2,2,6",
-          "label": "Синтез",
-          "title": "Фантастика · 7 серий",
-          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-orbit.png",
-          "action": "info:Синтез{br}Фантастика · 7 серий{br}{br}Демонстрационная карточка VIO."
-        },
-        {
-          "layout": "8,2,2,6",
-          "label": "Лесные истории",
-          "title": "Семейный · 10 серий",
-          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-robot.png",
-          "action": "info:Лесные истории{br}Семейный · 10 серий{br}{br}Демонстрационная карточка VIO."
-        },
-        {
-          "layout": "10,2,2,6",
-          "label": "Северный свет",
-          "title": "Документальный · 5 серий",
-          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-north.png",
-          "action": "info:Северный свет{br}Документальный · 5 серий{br}{br}Демонстрационная карточка VIO."
-        },
-        {
-          "type": "button",
-          "layout": "12,2,4,6",
-          "label": "Новая орбита",
-          "title": "Фантастика · 6 серий{br}{br}История, которая начинается с одного неверного решения.{br}{br}{ico:play-arrow} Подробнее",
-          "image": "https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/public/assets/poster-orbit.png",
-          "color": "msx-glass",
-          "action": "info:Новая орбита{br}Фантастика · 6 серий{br}{br}Это демонстрационная карточка без видеопотока."
+          "type": "space",
+          "layout": "0,5,12,1",
+          "text": "Для просмотра нужен запущенный сервер VIO на NAS. Адрес панели /portal/ не является адресом VIO.",
+          "color": "msx-black"
         }
       ]
     }

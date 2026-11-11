@@ -1,29 +1,49 @@
-name: CI
-
+name: VIO CI
 on:
   push:
-    branches: [main]
   pull_request:
-
+  workflow_dispatch:
 permissions:
   contents: read
-
 jobs:
-  test:
+  api:
     runs-on: ubuntu-latest
     steps:
-      - name: Получить исходный код
-        uses: actions/checkout@v4
-      - name: Настроить Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
-      - name: Установить зависимости
-        run: npm ci
-      - name: Проверить тесты
-        run: npm test
-      - name: Проверить сборку
-        run: npm run build
-      - name: Проверить Docker-образ
-        run: docker build -t vio:ci .
+          node-version: '24'
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - run: npm test
+      - run: npm audit --omit=dev --audit-level=moderate
+      - run: docker build -t vio:ci .
+      - name: Подготовить пакет для NAS
+        run: tar -czf VIO-NAS.tar.gz Dockerfile compose.yaml package.json package-lock.json server web scripts msx README.md deploy .env.example
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VIO-NAS
+          path: VIO-NAS.tar.gz
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - run: gradle :android:assembleDebug :android:lintDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VIO-debug-apk
+          path: android/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-reports
+          path: android/build/reports/

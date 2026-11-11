@@ -1,86 +1,47 @@
 {
-  "headline": "Настройки",
+  "headline": "VIO · Телевидение",
   "type": "pages",
-  "compress": true,
+  "compress": false,
   "pages": [
     {
       "items": [
         {
-          "type": "button",
-          "layout": "0,0,2,1",
-          "label": "VIO",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+          "type": "space",
+          "layout": "0,0,12,1",
+          "headline": "VIO",
+          "text": "ТЕЛЕКАНАЛЫ · ИЗБРАННОЕ · ПРОСТОЕ УПРАВЛЕНИЕ",
+          "color": "msx-black"
         },
         {
           "type": "button",
-          "layout": "2,0,2,1",
-          "label": "Главная",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/home.json"
+          "layout": "0,1,5,1",
+          "label": "Открыть телевидение",
+          "action": "link:http://192.168.8.222:8088/"
         },
         {
           "type": "button",
-          "layout": "4,0,2,1",
-          "label": "Фильмы",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/movies.json"
+          "layout": "0,2,5,1",
+          "label": "Администратор",
+          "action": "link:http://192.168.8.222:8088/admin"
         },
         {
           "type": "button",
-          "layout": "6,0,2,1",
-          "label": "Сериалы",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/series.json"
+          "layout": "0,3,5,1",
+          "label": "Как подключить",
+          "action": "info:VIO работает с вашим сервером в домашней сети.{br}1. Запустите контейнер VIO на NAS.{br}2. Администратор подключает M3U и EPG.{br}3. Откройте телевидение и выберите канал.{br}{br}Адрес VIO: http://192.168.8.222:8088"
         },
         {
-          "type": "button",
-          "layout": "8,0,2,1",
-          "label": "ТВ",
-          "color": "msx-glass",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/tv.json"
+          "type": "space",
+          "layout": "6,1,6,3",
+          "headline": "Ваши каналы.{br}Большой экран.",
+          "text": "Список каналов и просмотр справа.{br}Крупные кнопки. Управление пультом.{br}Последний канал и избранное.",
+          "color": "msx-black"
         },
         {
-          "type": "button",
-          "layout": "10,0,3,1",
-          "label": "Настройки",
-          "color": "msx-blue",
-          "action": "content:https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main/msx/content/settings.json"
-        },
-        {
-          "type": "button",
-          "layout": "13,0,3,1",
-          "label": "Поиск",
-          "icon": "search",
-          "color": "msx-glass",
-          "action": "info:Поиск появится после подключения первого каталога."
-        },
-        {
-          "type": "button",
-          "layout": "0,2,5,4",
-          "label": "Источники",
-          "title": "Личные и лицензированные каталоги",
-          "icon": "source",
-          "color": "msx-glass",
-          "action": "info:Источники добавляются через адаптеры VIO."
-        },
-        {
-          "type": "button",
-          "layout": "5,2,5,4",
-          "label": "Диагностика",
-          "title": "VIO загружается прямо с GitHub",
-          "icon": "monitor-heart",
-          "color": "msx-glass",
-          "action": "info:Статическая версия VIO. Отдельный сервер не требуется. API и защищённая админка в этом режиме не работают."
-        },
-        {
-          "type": "button",
-          "layout": "10,2,6,4",
-          "label": "О VIO",
-          "title": "Версия 0.2.0{br}Независимая оболочка для Media Station X",
-          "icon": "info",
-          "color": "msx-blue",
-          "action": "info:VIO — открытый независимый проект."
+          "type": "space",
+          "layout": "0,5,12,1",
+          "text": "Для просмотра нужен запущенный сервер VIO на NAS. Адрес панели /portal/ не является адресом VIO.",
+          "color": "msx-black"
         }
       ]
     }
