@@ -12,7 +12,7 @@ export function home(base=server){return{headline:'VIO · Телевидение
 await mkdir('msx/content',{recursive:true});await mkdir('web/vendor',{recursive:true});
 await copyFile('node_modules/hls.js/dist/hls.min.js','web/vendor/hls.min.js');
 await copyFile('node_modules/hls.js/LICENSE','web/vendor/HLS-LICENSE.txt');
-await writeFile('msx/start.json',JSON.stringify({name:'VIO',version:'1.1.0',parameter:'content:request:interaction:home@'+server+'/msx/interaction.html'},null,2)+'\n');
+await writeFile('msx/start.json',JSON.stringify({name:'VIO',version:'1.1.1',parameter:'content:request:interaction:home@'+server+'/msx/interaction.html'},null,2)+'\n');
 for(const name of ['home','tv','settings','about','catalog','movies','series'])await writeFile('msx/content/'+name+'.json',JSON.stringify(home(),null,2)+'\n');
 await writeFile('msx/menu.json',JSON.stringify({headline:'VIO · Телевидение',menu:[{id:'tv',label:'Телеканалы',data:raw+'/msx/content/home.json'}]},null,2)+'\n');
 console.log('VIO: собраны ТВ-страницы MSX и HLS-плеер');
