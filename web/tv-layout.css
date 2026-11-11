@@ -1,0 +1,12 @@
+/* Keep every remote control visible on 720p and 1080p televisions. */
+@media(min-width:901px){
+ body{height:100vh;min-height:0;overflow:hidden;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;row-gap:16px}
+ header{margin:0}nav{padding-bottom:14px}main{height:auto;min-height:0;margin:0}
+ .watch-pane{display:grid;grid-template-rows:minmax(100px,1fr) auto auto auto auto;min-height:0}
+ .screen{aspect-ratio:auto;max-height:none;height:100%;min-height:0}
+ .now{margin-top:14px}.now h2{margin:6px 0}.now p{margin:6px 0}
+ .watch-actions{margin-top:12px}.status{margin:8px 0;min-height:18px}.help-line{margin-top:0}
+ footer{margin:0;padding-top:10px;min-height:28px}
+ .list-bottom{padding-top:10px}
+ .fullscreen .watch-pane>:not(.screen){visibility:hidden}
+}
