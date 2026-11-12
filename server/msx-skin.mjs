@@ -51,7 +51,7 @@ export function channelSkin(channels,options={}){
  return renderSkin({channels:filtered.slice(start,start+rows).map(c=>({...c,number:c.number||channels.indexOf(c)+1})),selected:filtered[current]?.id,favorites,onlyFavorites,category,clock:time,video:!fallback,large,nav,fallback,categoryList,total:filtered.length});
 }
 
-export function categoryRows(channels){return [{id:'cat_0',number:1,name:'Все категории',category:'',value:''},...[...new Set(channels.map(c=>c.category))].map((value,i)=>({id:'cat_'+(i+1),number:i+2,name:value,category:'',value}))];}
+export function categoryRows(channels){const counts=new Map();for(const c of channels)counts.set(c.category,(counts.get(c.category)||0)+1);return [{id:'cat_0',number:1,name:'Все каналы ('+channels.length+')',category:'',value:''},...[...counts].map(([value,count],i)=>({id:'cat_'+(i+1),number:i+2,name:(value||'Общие')+' ('+count+')',category:'',value}))];}
 export function skinCategories(channels,base,options={}){
  const rows=categoryRows(channels),last=options.categoryCursor||'cat_0';
  const page=skinChannels(rows,base,{last,large:options.large,fallback:true});
