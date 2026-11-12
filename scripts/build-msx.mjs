@@ -1,8 +1,9 @@
+import {directVersion} from './direct-version.mjs';
 import {mkdir,writeFile,copyFile,readFile} from 'node:fs/promises';
 const raw='https://raw.githubusercontent.com/vioproduct1-sudo/VIO/main';
 const direct=!process.env.VIO_TV_URL;
 const server=(process.env.VIO_TV_URL||'https://vioproduct1-sudo.github.io/VIO').replace(/\/$/,'');
-const interaction=server+(direct?'/interaction.html':'/msx/interaction.html');
+const interaction=server+(direct?'/interaction.html?v='+directVersion:'/msx/interaction.html');
 export function home(base=server){if(direct)return{headline:'VIO · Телевидение',type:'pages',pages:[{items:[{type:'button',layout:'0,0,12,2',label:'Открыть телеканалы VIO',action:'content:request:interaction:home@'+interaction},{type:'space',layout:'0,3,12,2',text:'Ключ доступа вводится внутри VIO и сохраняется только на этом устройстве. Каналы воспроизводятся напрямую от провайдера.'}]}]};return{headline:'VIO · Телевидение',type:'pages',compress:false,pages:[{items:[
  {type:'space',layout:'0,0,12,1',headline:'VIO',text:'ТЕЛЕКАНАЛЫ · ИЗБРАННОЕ · ПРОСТОЕ УПРАВЛЕНИЕ',color:'msx-black'},
  {type:'button',layout:'0,1,5,1',label:'VIO · Загрузить телеканалы в MSX',execute:true,action:'content:request:interaction:home@'+base+'/msx/interaction.html'},
