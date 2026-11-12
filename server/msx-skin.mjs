@@ -2,7 +2,7 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 export const reference={width:2048,height:1080,listX:12,listY:86,listWidth:850,rowHeight:40,rowGap:4,video:{x:876,y:68,w:1158,h:990},rows:22};
 export function renderSkin({channels=[],selected='',favorites=[],category='',onlyFavorites=false,clock='19:12',online=true,video=false,large=false,nav='',fallback=false,categoryList=false,total=channels.length}={}){
  const g=large?{...reference,rows:8,rowHeight:112,rowGap:8}:reference,fav=new Set(favorites),items=channels.slice(0,g.rows),rect=(x,y,w,h,fill,stroke='none',rx=5)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}"/>`,text=(x,y,value,size=12,color='#f4f7fb',weight='normal')=>`<text x="${x}" y="${y}" font-size="${size}" font-weight="${weight}" fill="${color}">${esc(value)}</text>`;
- let out=`<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1152" viewBox="0 0 2048 1080" style="background:#0a1019" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="bg"><stop stop-color="#0a1019"/><stop offset="1" stop-color="#142536"/></linearGradient><clipPath id="list"><rect x="12" y="80" width="850" height="972"/></clipPath><mask id="frame"><rect width="2048" height="1080" fill="white"/>${video?rect(g.video.x+1,g.video.y+1,g.video.w-2,g.video.h-2,'black','none',6):''}</mask></defs><g font-family="Arial,sans-serif" mask="url(#frame)">${rect(0,0,2048,1080,'url(#bg)','none',0)}`;
+ let out=`<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1152" viewBox="0 0 2048 1080" preserveAspectRatio="xMidYMid meet"><rect x="0" y="-36" width="2048" height="36" fill="#0a1019"/><rect x="0" y="1080" width="2048" height="36" fill="#0a1019"/><defs><linearGradient id="bg"><stop stop-color="#0a1019"/><stop offset="1" stop-color="#142536"/></linearGradient><clipPath id="list"><rect x="12" y="80" width="850" height="972"/></clipPath><mask id="frame"><rect width="2048" height="1080" fill="white"/>${video?rect(g.video.x+1,g.video.y+1,g.video.w-2,g.video.h-2,'black','none',6):''}</mask></defs><g font-family="Arial,sans-serif" mask="url(#frame)">${rect(0,0,2048,1080,'url(#bg)','none',0)}`;
  out+=rect(12,3,18,18,'#79ebce')+text(17,16,'V',13,'#0b2421','bold')+text(35,17,'VIO',16,'#f4f7fb','bold')+text(75,14,'Т Е Л Е В И Д Е Н И Е',4,'#9aaabd');
  out+=text(1940,14,online?'● Сервер подключён':'○ Нет связи',5,online?'#79ebce':'#ffd49a')+text(2011,16,clock,10);
  out+=rect(12,29,85,25,onlyFavorites?'#152130':'#79ebce','#253243',4)+text(21,45,'Телеканалы',11,onlyFavorites?'#f4f7fb':'#0b2421','bold');
@@ -40,7 +40,7 @@ export function skinChannels(channels,base,options={}){
  nav.forEach(([id,slot,box,action])=>items.push(skinTarget(slot,box,{id,type:'default',color:'transparent',action,selection:{important:true,action:'update:content:overlay:skin',data:{image:image+'&nav='+id}}})));
  for(const [idx,slot]of [[current-1,8],[current+1,24]])if(idx>=0&&idx<filtered.length&&(idx<start||idx>=start+rows))items.push(skinTarget(slot,{x:0,y:0,w:1,h:1},{id:'edge_'+idx,type:'default',color:'transparent',action:move(filtered[idx].id),selection:{important:true,action:move(filtered[idx].id)}}));
  if(!filtered.length)items[0].focus=true;
- return {name:'VIO',headline:'',flag:'pip',type:'pages',transparent:1,wrap:false,pages:[{items}],overlay:{items:[{id:'skin',type:'space',layout:'0,0,12,6',offset:'-0.75,-1,1.5,1.666667',image,imageFiller:'width-center',imagePreload:true}]}};
+ return {name:'VIO',headline:'',background:image,flag:'pip',type:'pages',transparent:1,wrap:false,pages:[{items}],overlay:{important:true,items:[{id:'skin',type:'space',layout:'0,0,12,6',offset:'-0.75,-1,1.5,1.666667',image,imageFiller:'width-center',imagePreload:true}]}};
 }
 
 export function channelSkin(channels,options={}){
@@ -56,6 +56,7 @@ export function skinCategories(channels,base,options={}){
  const rows=categoryRows(channels),last=options.categoryCursor||'cat_0';
  const page=skinChannels(rows,base,{last,large:options.large,fallback:true});
  page.overlay.items[0].image=base+'/msx/skin.svg?categoryList=true&last='+last+'&large='+!!options.large;
+ page.background=page.overlay.items[0].image;
  for(const item of page.pages[0].items){
   if(item.id.startsWith('ch_')){const row=rows.find(r=>'ch_'+r.id===item.id);item.action='interaction:commit';item.data={cmd:'category',value:row.value};if(item.focus)item.selection={important:true,action:'update:content:overlay:skin',data:{image:page.overlay.items[0].image}};else item.selection.action=item.selection.action.replace('move_cat_','categoryMove_cat_');}
   else if(item.id.startsWith('edge_')){item.action=item.action.replace('move_cat_','categoryMove_cat_');item.selection.action=item.action;}
