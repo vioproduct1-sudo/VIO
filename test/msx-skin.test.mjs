@@ -11,3 +11,5 @@ test('native playback never crops a fullscreen video through the preview mask',(
 test('visual hit targets use uniform 16:9 scale with the SVG letterbox',()=>{const item=skinTarget(0,{x:876,y:68,w:1158,h:990},{});const [x,y,w,h]=item.offset.split(',').map(Number);assert(Math.abs(72+x*96-547.5)<0.001);assert(Math.abs(96+y*96-65)<0.001);assert(Math.abs(80+w*96-723.75)<0.001);assert(Math.abs(80+h*96-618.75)<0.001);});
 
 test('skin remains visible behind MSX selection animations',()=>{const p=skinChannels(channels,'https://vio.example',{fallback:true});assert.equal(p.background,p.overlay.items[0].image);assert.equal(p.overlay.important,true);assert.equal(p.overlay.items[0].imagePreload,true);const svg=channelSkin(channels);assert(!svg.includes('style="background:'));});
+
+test('header actions stay clear of the MSX top-right on-screen remote',()=>{const p=skinChannels(channels,'https://vio.example');for(const id of ['settings','admin']){const i=p.pages[0].items.find(i=>i.id===id);const [gx]=i.layout.split(',').map(Number),[dx,,dw]=i.offset.split(',').map(Number);const left=72+(gx+dx)*96,width=80+dw*96;assert(left+width<1140,id);}});
