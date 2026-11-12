@@ -1,48 +1,19 @@
 {
   "headline": "VIO · Телевидение",
   "type": "pages",
-  "compress": false,
   "pages": [
     {
       "items": [
         {
-          "type": "space",
-          "layout": "0,0,12,1",
-          "headline": "VIO",
-          "text": "ТЕЛЕКАНАЛЫ · ИЗБРАННОЕ · ПРОСТОЕ УПРАВЛЕНИЕ",
-          "color": "msx-black"
-        },
-        {
           "type": "button",
-          "layout": "0,1,5,1",
-          "label": "VIO · Загрузить телеканалы в MSX",
-          "execute": true,
-          "action": "content:request:interaction:home@http://192.168.8.222:8088/msx/interaction.html"
-        },
-        {
-          "type": "button",
-          "layout": "0,2,5,1",
-          "label": "Администрирование",
-          "action": "info:Админка доступна с компьютера: http://192.168.8.222:8088/admin. Просмотр телеканалов работает внутри Media Station X."
-        },
-        {
-          "type": "button",
-          "layout": "0,3,5,1",
-          "label": "Как подключить",
-          "action": "info:VIO работает с вашим сервером в домашней сети.{br}1. Запустите контейнер VIO на NAS.{br}2. Администратор подключает M3U и EPG.{br}3. Откройте телевидение и выберите канал.{br}{br}Адрес VIO: http://192.168.8.222:8088"
+          "layout": "0,0,12,2",
+          "label": "Открыть телеканалы VIO",
+          "action": "content:request:interaction:home@https://vioproduct1-sudo.github.io/VIO/interaction.html"
         },
         {
           "type": "space",
-          "layout": "6,1,6,3",
-          "headline": "Ваши каналы.{br}Большой экран.",
-          "text": "Список каналов и просмотр справа.{br}Крупные кнопки. Управление пультом.{br}Последний канал и избранное.",
-          "color": "msx-black"
-        },
-        {
-          "type": "space",
-          "layout": "0,5,12,1",
-          "text": "Для просмотра нужен запущенный сервер VIO на NAS. Адрес панели /portal/ не является адресом VIO.",
-          "color": "msx-black"
+          "layout": "0,3,12,2",
+          "text": "Ключ доступа вводится внутри VIO и сохраняется только на этом устройстве. Каналы воспроизводятся напрямую от провайдера."
         }
       ]
     }
