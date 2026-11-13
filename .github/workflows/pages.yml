@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 concurrency:
@@ -29,5 +30,24 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+          name: vio-pages-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Wait for Pages artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAGES_ARTIFACT: vio-pages-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          node --input-type=module <<'NODE'
+          const url=process.env.GITHUB_API_URL+'/repos/'+process.env.GITHUB_REPOSITORY+'/actions/runs/'+process.env.GITHUB_RUN_ID+'/artifacts';
+          for(let attempt=0;attempt<10;attempt++){
+            const response=await fetch(url,{headers:{Authorization:'Bearer '+process.env.GH_TOKEN,Accept:'application/vnd.github+json'}});
+            if(!response.ok)throw Error('Cannot read artifact metadata: '+response.status);
+            const data=await response.json();
+            if(data.artifacts.some(a=>a.name===process.env.PAGES_ARTIFACT&&!a.expired))process.exit(0);
+            await new Promise(resolve=>setTimeout(resolve,3000));
+          }
+          throw Error('Uploaded Pages artifact metadata is not available yet');
+          NODE
       - uses: actions/deploy-pages@v4
         id: deployment
+        with:
+          artifact_name: vio-pages-${{ github.run_id }}-${{ github.run_attempt }}
