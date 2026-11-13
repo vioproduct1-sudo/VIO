@@ -1,0 +1,10 @@
+import index from '../server/catalog/index.json' with {type:'json'};
+import p0 from '../server/catalog/part-0.json' with {type:'json'};
+import p1 from '../server/catalog/part-1.json' with {type:'json'};
+import p2 from '../server/catalog/part-2.json' with {type:'json'};
+import p3 from '../server/catalog/part-3.json' with {type:'json'};
+import p4 from '../server/catalog/part-4.json' with {type:'json'};
+import p5 from '../server/catalog/part-5.json' with {type:'json'};
+import p6 from '../server/catalog/part-6.json' with {type:'json'};
+import p7 from '../server/catalog/part-7.json' with {type:'json'};
+export default {streamBase:index.streamBase,channels:[].concat(p0,p1,p2,p3,p4,p5,p6,p7)};
