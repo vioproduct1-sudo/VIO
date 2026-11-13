@@ -2,7 +2,7 @@ import {skinTarget} from '../server/msx-skin.mjs';
 // Keep the native selection engine at a fixed anchor. Direction buttons return
 // focus synchronously, before the interaction iframe receives the step. Neither
 // the native page nor its logical grid changes while the remote repeats a key.
-export const playbackControls={'control:type':'extended','control:transparent':'true','control:timeout':'3','control:retune':'retain','control:action':'[player:content|focus:nav_anchor]','trigger:back':'[player:content|focus:nav_anchor]','trigger:active':'event:pip:disable','trigger:inactive':'event:pip:validate'};
+export const playbackControls={'button:content:focus':'true','control:type':'extended','control:transparent':'true','control:timeout':'3','control:retune':'retain','control:action':'[player:content|focus:nav_anchor]','trigger:back':'[player:content|focus:nav_anchor]','trigger:active':'event:pip:disable','trigger:inactive':'event:pip:validate'};
 export function cursorTarget(index,large=false){const size=large?8:22,row=((index%size)+size)%size;return skinTarget(16,{x:12,y:86+row*(large?120:44),w:850,h:large?112:40},{}).offset;}
 export function stableNavigation(page,{count,currentIndex=0,categoryList=false,large=false,playAction}){
  const old=page.pages[0].items,nav=old.filter(i=>['all','favorites','categories','settings','admin'].includes(i.id));
