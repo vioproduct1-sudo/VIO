@@ -8,7 +8,7 @@
           "type": "button",
           "layout": "0,0,12,2",
           "label": "Открыть телеканалы VIO",
-          "action": "content:request:interaction:home@https://vioproduct1-sudo.github.io/VIO/interaction.html?v=1.2.5"
+          "action": "content:request:interaction:home@https://vioproduct1-sudo.github.io/VIO/interaction.html?v=1.2.6"
         },
         {
           "type": "space",

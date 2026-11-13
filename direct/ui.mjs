@@ -18,10 +18,11 @@ export function screenPage(config,encode){
  const split=!!config.keyboard;const image=screenImage(split?{...config,focus:'',value:null,message:''}:config,encode);
  return{name:'VIO',headline:'',type:'pages',flag:'vio-ui',transparent:1,background:skinBackdrop,caption:'',pages:[{items:config.buttons.map((button,i)=>{
   const [gx,gy]=button.layout.split(',').map(Number),[x,y,w,h]=compactBox(button.box);
-  return{id:button.id,key:button.key,label:button.label,type:'default',color:'transparent',layout:button.layout,offset:[(x-72)/96-gx,(y-96)/96-gy,(w-80)/96-(Number(button.layout.split(',')[2])-1),(h-80)/96-(Number(button.layout.split(',')[3])-1)].map(n=>Number(n.toFixed(6))).join(','),focus:button.id===config.focus,action:button.action||'interaction:commit',data:button.data,selection:{important:true,action:'interaction:commit',data:{cmd:'uiFocus',id:button.id,view:config.view}}};
+  return{id:button.id,key:button.key,type:'default',color:'transparent',layout:button.layout,offset:[(x-72)/96-gx,(y-96)/96-gy,(w-80)/96-(Number(button.layout.split(',')[2])-1),(h-80)/96-(Number(button.layout.split(',')[3])-1)].map(n=>Number(n.toFixed(6))).join(','),focus:button.id===config.focus,action:button.action||'interaction:commit',data:button.data,selection:{important:true,action:'interaction:commit',data:{cmd:'uiFocus',id:button.id,view:config.view}}};
  })}],overlay:{important:true,items:[{id:'vioUi',type:'space',layout:'0,0,12,6',offset:'-0.75,-1,1.5,1.666667',image,imageFiller:'width-center',imagePreload:true},...(split?['field','focus'].map(layer=>({id:layer==='field'?'vioField':'vioFocus',type:'space',layout:'0,0,12,6',offset:'-0.75,-1,1.5,1.666667',image:screenImage({...config,layer},encode),imageFiller:'width-center',imagePreload:true})):[])]}};
 }
 
 export function connectionErrorPage(encode){
  return screenPage({title:'Нет связи с каталогом',description:'Не удалось загрузить каналы VIO. Проверьте интернет и повторите подключение.',message:'Ваш сохранённый ключ не изменён.',focus:'retry',buttons:[{id:'retry',label:'Повторить подключение',layout:'0,0,8,1',box:[48,250,1184,72],action:'reload'}]},encode);
 }
+
