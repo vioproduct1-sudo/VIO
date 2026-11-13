@@ -1,1 +1,1 @@
-export const directVersion='1.3.1';
+export const directVersion='1.3.2';
