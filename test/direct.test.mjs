@@ -19,3 +19,5 @@ test('VIO audio controls clamp and persist volume, hide the native volume panel'
 
 import {connectionErrorPage} from '../direct/ui.mjs';
 test('catalog failure uses a VIO retry screen without a native panel',()=>{const p=connectionErrorPage(s=>s);assert(p.overlay.items[0].image.includes('Нет связи с каталогом'));assert.equal(p.pages[0].items[0].action,'reload');assert.equal(p.flag,'vio-ui');});
+
+test('all Direct screens avoid rendering a second copy of their UI in the background',()=>{const {app}=setup();for(const route of ['home','categories','favorites','settings','audio','admin','key','confirmForget']){const p=app.request(route);assert.notEqual(p.background,p.overlay.items[0].image,route);if(p.background)assert(!decodeURIComponent(p.background).includes('<text'),route);}});

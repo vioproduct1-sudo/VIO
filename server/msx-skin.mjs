@@ -1,3 +1,4 @@
+import {skinBackdrop} from './msx-background.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
 export const reference={width:2048,height:1080,listX:12,listY:86,listWidth:850,rowHeight:40,rowGap:4,video:{x:876,y:68,w:1158,h:990},rows:22};
 export function renderSkin({channels=[],selected='',favorites=[],category='',onlyFavorites=false,clock='19:12',online=true,video=false,large=false,nav='',fallback=false,categoryList=false,total=channels.length}={}){
@@ -40,7 +41,7 @@ export function skinChannels(channels,base,options={}){
  nav.forEach(([id,slot,box,action])=>items.push(skinTarget(slot,box,{id,type:'default',color:'transparent',action,selection:{important:true,action:'update:content:overlay:skin',data:{image:image+'&nav='+id}}})));
  for(const [idx,slot]of [[current-1,8],[current+1,24]])if(idx>=0&&idx<filtered.length&&(idx<start||idx>=start+rows))items.push(skinTarget(slot,{x:0,y:0,w:1,h:1},{id:'edge_'+idx,type:'default',color:'transparent',action:move(filtered[idx].id),selection:{important:true,action:move(filtered[idx].id)}}));
  if(!filtered.length)items[0].focus=true;
- return {name:'VIO',headline:'',background:image,flag:'pip',type:'pages',transparent:1,wrap:false,pages:[{items}],overlay:{important:true,items:[{id:'skin',type:'space',layout:'0,0,12,6',offset:'-0.75,-1,1.5,1.666667',image,imageFiller:'width-center',imagePreload:true}]}};
+ return {name:'VIO',headline:'',background:fallback?skinBackdrop:null,flag:'pip',type:'pages',transparent:1,wrap:false,pages:[{items}],overlay:{important:true,items:[{id:'skin',type:'space',layout:'0,0,12,6',offset:'-0.75,-1,1.5,1.666667',image,imageFiller:'width-center',imagePreload:true}]}};
 }
 
 export function channelSkin(channels,options={}){
@@ -56,7 +57,7 @@ export function skinCategories(channels,base,options={}){
  const rows=categoryRows(channels),last=options.categoryCursor||'cat_0';
  const page=skinChannels(rows,base,{last,large:options.large,fallback:true});
  page.overlay.items[0].image=base+'/msx/skin.svg?categoryList=true&last='+last+'&large='+!!options.large;
- page.background=page.overlay.items[0].image;
+ page.background=skinBackdrop;
  for(const item of page.pages[0].items){
   if(item.id.startsWith('ch_')){const row=rows.find(r=>'ch_'+r.id===item.id);item.action='interaction:commit';item.data={cmd:'category',value:row.value};if(item.focus)item.selection={important:true,action:'update:content:overlay:skin',data:{image:page.overlay.items[0].image}};else item.selection.action=item.selection.action.replace('move_cat_','categoryMove_cat_');}
   else if(item.id.startsWith('edge_')){item.action=item.action.replace('move_cat_','categoryMove_cat_');item.selection.action=item.action;}

@@ -1,3 +1,4 @@
+import {skinBackdrop} from '../server/msx-background.mjs';
 export const compactBox=([x,y,w,h])=>[160+(x-48)*960/1184,210+(y-245)*0.82,w*960/1184,h*0.82];
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
 
@@ -14,7 +15,7 @@ export function screenImage({title,description='',value=null,message='',buttons=
 
 export function screenPage(config,encode){
  const image=screenImage(config,encode);
- return{name:'VIO',headline:'',type:'pages',flag:'vio-ui',transparent:1,background:image,caption:'',pages:[{items:config.buttons.map((button,i)=>{
+ return{name:'VIO',headline:'',type:'pages',flag:'vio-ui',transparent:1,background:skinBackdrop,caption:'',pages:[{items:config.buttons.map((button,i)=>{
   const [gx,gy]=button.layout.split(',').map(Number),[x,y,w,h]=compactBox(button.box);
   return{id:button.id,label:button.label,type:'default',color:'transparent',layout:button.layout,offset:[(x-72)/96-gx,(y-96)/96-gy,(w-80)/96-(Number(button.layout.split(',')[2])-1),(h-80)/96-(Number(button.layout.split(',')[3])-1)].map(n=>Number(n.toFixed(6))).join(','),focus:button.id===config.focus,action:button.action||'interaction:commit',data:button.data,selection:{important:true,action:'interaction:commit',data:{cmd:'uiFocus',id:button.id}}};
  })}],overlay:{important:true,items:[{id:'vioUi',type:'space',layout:'0,0,12,6',offset:'-0.75,-1,1.5,1.666667',image,imageFiller:'width-center',imagePreload:true}]}};
