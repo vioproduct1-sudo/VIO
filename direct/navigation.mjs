@@ -28,5 +28,5 @@ export function listLayers(svg,encode,{categoryList=false}={}){
  const nav=(svg.match(/<rect[^>]*fill="none" stroke="#79ebce"[^>]*\/>/g)||[]).join('');
  const help='<text x="16" y="1072" font-family="Arial,sans-serif" font-size="13" fill="#79ebce">'+(categoryList?'← Назад · ↑↓ Категории · OK Выбрать · → Каналы':'← Категории · ↑↓ Каналы · OK Смотреть · Красная кнопка: категории')+'</text>';
  svg=svg.replace('</svg>',help+'</svg>');
- return{base:encode(svg.split('fill="#15302f"').join('fill="#101b29"').split('stroke="#79ebce"').join('stroke="#192839"')),focus:encode('<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1152" viewBox="0 0 2048 1080" preserveAspectRatio="xMidYMid meet"><g font-family="Arial,sans-serif">'+strong+status+nav+'</g></svg>')};
+ return{base:encode(svg.split('fill="#15302f"').join('fill="#101b29"').split('stroke="#79ebce"').join('stroke="#192839"')),focus:encode('<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1152" viewBox="0 0 2048 1080" preserveAspectRatio="xMidYMid meet"><g font-family="Arial,sans-serif">'+'<defs><clipPath id="activeRowClip"><rect x="12" y="80" width="850" height="972"/></clipPath></defs><g clip-path="url(#activeRowClip)">'+strong+'</g>'+status+nav+'</g></svg>')};
 }
