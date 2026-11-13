@@ -11,3 +11,8 @@ export async function checkSubscription(key,adapter){
  if(typeof adapter!=='function')return {status:'unsupported'};
  try{const result=await adapter(key);return validDate(result?.expiresOn)?{status:'ok',expiresOn:result.expiresOn}:{status:'unavailable'};}catch{return {status:'unavailable'};}
 }
+export function subscriptionReminder(subscription,now=new Date()){
+ if(!validDate(subscription?.expiresOn))return '';
+ const [y,m,d]=subscription.expiresOn.split('-').map(Number),days=Math.round((Date.UTC(y,m-1,d)-Date.UTC(now.getFullYear(),now.getMonth(),now.getDate()))/86400000);
+ return days>=0&&days<=3?subscriptionLabel(subscription.expiresOn,subscription.source,now):'';
+}
