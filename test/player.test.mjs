@@ -16,3 +16,5 @@ test('preview surface keeps 16:9 bounds; fullscreen and preview transitions rest
 
 test('resumed frames clear a stale loading indicator even without another playing event',()=>{const f=fixture(true);f.events.playing();f.events.waiting();const before=f.calls.filter(c=>c==='loaded').length;f.video.currentTime=1;f.events.timeupdate();assert.equal(f.calls.filter(c=>c==='loaded').length,before+1);f.events.waiting();f.video.currentTime=2;f.advance(2000);assert.equal(f.calls.filter(c=>c==='loaded').length,before+2);assert(!f.calls.some(c=>c.includes('|video:')));});
 test('pause clears buffering and late waiting does not restore the spinner',()=>{const f=fixture(true);f.events.waiting();f.player.pause();const before=f.calls.filter(c=>c==='loading').length;f.events.waiting();assert.equal(f.calls.filter(c=>c==='loading').length,before);assert(f.calls.includes('loaded'));});
+
+ test('visible VIO list has priority over videoActive during PiP transitions',()=>{const f=fixture(true);f.state({videoActive:true,contentVisible:true,contentFocus:1,contentFlag:'pip'});assert.equal(f.video.style.width,'723.75px');assert(!f.calls.includes('quiet'));});
