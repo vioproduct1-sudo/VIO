@@ -53,7 +53,7 @@ class MainActivity : Activity() {
  private val mint=0xff79ebce.toInt()
  private val favorites get()=prefs.getStringSet("favorites",emptySet())!!.toMutableSet()
  private fun dp(n:Int)=(n*resources.displayMetrics.density).toInt()
- override fun onCreate(state:Bundle?) {super.onCreate(state);window.decorView.systemUiVisibility=View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;build();load()}
+ override fun onCreate(state:Bundle?) {super.onCreate(state);window.decorView.systemUiVisibility=View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;build();load();if(prefs.getBoolean("autoUpdate",false))startActivity(Intent(this,UpdateActivity::class.java).putExtra("automatic",true))}
  private fun column()=LinearLayout(this).apply{orientation=LinearLayout.VERTICAL}
  private fun text(value:String,size:Float,color:Int=Color.WHITE)=TextView(this).apply{text=value;textSize=size;setTextColor(color)}
  private fun shape(color:Int,stroke:Int=0)=GradientDrawable().apply{setColor(color);cornerRadius=dp(9).toFloat();if(stroke!=0)setStroke(dp(3),stroke)}
@@ -106,6 +106,7 @@ class MainActivity : Activity() {
   fun check(label:String,key:String,default:Boolean=false){val c=CheckBox(this);c.text=label;c.textSize=18f;c.isChecked=prefs.getBoolean(key,default);c.setOnCheckedChangeListener{_,v->prefs.edit().putBoolean(key,v).apply()};box.addView(c)}
   check("Крупный простой режим","large");check("Включать последний канал при запуске","resume",true);check("Автозапуск после загрузки (если разрешено ТВ)","boot");check("Видео до 720p (для многовариантного потока)","hd");check("Заполнять экран","fill");check("Субтитры","subtitles")
   button("Звук: русский / исходный",box){val next=if(prefs.getString("audio","ru")=="ru")"" else "ru";prefs.edit().putString("audio",next).apply();Toast.makeText(this,if(next.isEmpty())"Исходный звук" else "Русский звук",Toast.LENGTH_SHORT).show()}
+  button("Обновление VIO",box){startActivity(Intent(this,UpdateActivity::class.java))}
   button("Резервный плеер",box){external()};button("Администратор · плейлисты и EPG",box){admin()}
   button("Выбрать VIO домашним экраном",box){try{packageManager.setComponentEnabledSetting(ComponentName(this,"app.vio.tv.HomeActivity"),PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);startActivity(Intent(android.provider.Settings.ACTION_HOME_SETTINGS))}catch(_:Exception){Toast.makeText(this,"Этот телевизор не предоставляет выбор домашнего экрана",Toast.LENGTH_LONG).show()}}
   button("Отключить VIO Launcher",box){packageManager.setComponentEnabledSetting(ComponentName(this,"app.vio.tv.HomeActivity"),PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP)}

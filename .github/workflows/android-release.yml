@@ -1,0 +1,70 @@
+name: VIO Android Release
+on:
+  push:
+    branches: [main]
+    paths: ['android/**', '.github/workflows/android-release.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: vio-android-release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+          log-accepted-android-sdk-licenses: false
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Load permanent signing key
+        env:
+          SIGNING_JSON: ${{ secrets.VIO_ANDROID_SIGNING }}
+        run: |
+          python3 <<'PY'
+          import os, json, base64, pathlib
+          if not os.environ.get('SIGNING_JSON'):
+              raise SystemExit('Add the VIO_ANDROID_SIGNING repository secret before publishing an installable release.')
+          data=json.loads(os.environ['SIGNING_JSON'])
+          password=data['password']
+          if not password.isalnum() or len(password)<32: raise SystemExit('Invalid signing configuration')
+          print('::add-mask::'+password)
+          path=pathlib.Path(os.environ['RUNNER_TEMP'])/'vio.p12'
+          path.write_bytes(base64.b64decode(data['keystore'],validate=True))
+          path.chmod(0o600)
+          with open(os.environ['GITHUB_ENV'],'a') as env:
+              env.write('VIO_KEYSTORE='+str(path)+'\nVIO_STORE_PASSWORD='+password+'\n')
+              env.write('VIO_VERSION_CODE='+str(1000+int(os.environ['GITHUB_RUN_NUMBER']))+'\n')
+              env.write('VIO_VERSION_NAME=0.2.'+os.environ['GITHUB_RUN_NUMBER']+'\n')
+          PY
+      - run: gradle :android:assembleRelease :android:lintRelease :android:testReleaseUnitTest --no-daemon
+      - name: Prepare verified update metadata
+        run: |
+          mkdir release
+          cp android/build/outputs/apk/release/android-release.apk release/VIO-TV.apk
+          python3 <<'PY'
+          import os,json,hashlib,pathlib
+          apk=pathlib.Path('release/VIO-TV.apk')
+          data={'applicationId':'app.vio.tv','versionCode':int(os.environ['VIO_VERSION_CODE']),'versionName':os.environ['VIO_VERSION_NAME'],'sha256':hashlib.sha256(apk.read_bytes()).hexdigest()}
+          pathlib.Path('release/android-update.json').write_text(json.dumps(data,indent=2))
+          PY
+      - name: Publish APK and update information
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="android-v${VIO_VERSION_NAME}"
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            gh release create "$tag" --target "$GITHUB_SHA" --title "VIO TV ${VIO_VERSION_NAME}" --notes "Android TV: обновление из приложения, проверка контрольной суммы и подписи. Нужен сервер VIO. Установку подтверждает Android."
+          fi
+          gh release upload "$tag" release/VIO-TV.apk release/android-update.json --clobber
+      - name: Remove signing file
+        if: always()
+        run: rm -f "$RUNNER_TEMP/vio.p12"
