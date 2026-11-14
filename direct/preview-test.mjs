@@ -9,8 +9,9 @@ export function previewTestPage(base,version,encode){
  const item=page.pages[0].items.find(i=>i.id==='ch_'+channel.id);
  const returnToTest='content:request:interaction:previewTest@'+base+'/interaction.html?v='+version;
  item.action='video:plugin:'+base+'/player.html?id='+channel.id+'&skin=1&v='+version;
- item.selection={action:'none'};
+ delete item.selection;
  item.properties={...item.properties,'control:action':returnToTest,'trigger:back':returnToTest,'button:content:icon':'list','button:content:action':returnToTest,'button:content:focus':'true'};
- const back=page.pages[0].items.find(i=>i.id==='all');back.focus=false;back.action='content:request:interaction:home';back.selection={action:'none'};
+ const back=page.pages[0].items.find(i=>i.id==='all');back.focus=false;back.action='content:request:interaction:home';delete back.selection;
  page.pages[0].items=[item,back];return page;
 }
+
