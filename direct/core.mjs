@@ -62,6 +62,7 @@ export function createDirect(catalog,base,storage,encodeSvg,options={}){
  if(id.startsWith('stream_')){const token=id.slice(7),w=listWindow();const c=token==='current'?w.list[w.at]:token.startsWith('row_')?w.visible[Number(token.slice(4))]:catalog.channels.find(c=>c.id===token);return valid(key)&&c?{url:catalog.streamBase.replace(/\/$/,'')+'/iptv/'+key+'/'+c.streamPath,subscriptionNotice:takeReminder()}:{error:'Ключ не задан. Откройте Администратор → Ключ доступа iEdem.'};}
  if(id.startsWith('move_')){selected=id.slice(5);prefs.last=selected;save();}if(id==='all'){category='';onlyFavorites=false;}if(id==='favorites'){onlyFavorites=true;category='';selected='';}return page();}
  function commit(d,deferRender=false){if(!d)return null;
+ if(d.cmd==='playCurrent')return{action:playAction('current')};if(d.cmd==='playRow'&&Number.isInteger(Number(d.index)))return{action:playAction('row_'+Number(d.index))};
  if(['dateDigit','dateErase','saveSubscriptionDate','clearSubscription','checkSubscription'].includes(d.cmd)&&!adminAllowed())return{action:'content:data',data:pinScreen()};
  if(d.cmd==='checkSubscription')return{subscriptionCheck:true};
  if(d.cmd==='dateDigit'||d.cmd==='dateErase'){if(d.cmd==='dateDigit'&&/^\d$/.test(d.value)&&dateDraft.length<8)dateDraft+=d.value;else if(d.cmd==='dateErase')dateDraft=dateDraft.slice(0,-1);subscriptionNotice='';dateScreen(true);return redraw('field');}
