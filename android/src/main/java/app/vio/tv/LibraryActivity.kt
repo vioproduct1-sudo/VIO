@@ -34,7 +34,7 @@ class LibraryActivity:Activity(){
  @Volatile private var closed=false
  private var generation=0
  private fun ui(action:()->Unit){runOnUiThread{if(!closed&&!isFinishing)action()}}
- override fun onCreate(state:Bundle?){super.onCreate(state)
+ override fun onCreate(state:Bundle?){super.onCreate(state);volumeControlStream=android.media.AudioManager.STREAM_MUSIC
   window.decorView.systemUiVisibility=View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
   val root=LinearLayout(this).apply{orientation=LinearLayout.VERTICAL;setPadding(24,16,24,16);setBackgroundColor(0xff0a1019.toInt())};setContentView(root)
   heading=TextView(this).apply{text="Медиатека VIO";textSize=28f;setTextColor(0xff79ebce.toInt())};root.addView(heading)
@@ -43,7 +43,7 @@ class LibraryActivity:Activity(){
   button("Телеканалы"){finish()};button("Назад"){back()};button("Подключение"){startActivity(Intent(this,ConnectionActivity::class.java))};button("Весь экран"){if(lastStream.isNotEmpty())setFull(true)}
   video=PlayerView(this).apply{useController=true;setBackgroundColor(Color.BLACK)};root.addView(video,LinearLayout.LayoutParams(-1,0,1f))
   status=TextView(this).apply{textSize=19f;setTextColor(Color.WHITE)};root.addView(status)
-  list=ListView(this).apply{isFocusable=true;isFocusableInTouchMode=true;setSelector(0xff24463f.toInt())};root.addView(list,LinearLayout.LayoutParams(-1,0,1f))
+  list=ListView(this).apply{isFocusable=true;isFocusableInTouchMode=true;setSelector(android.graphics.drawable.ColorDrawable(0xff246557.toInt()))};root.addView(list,LinearLayout.LayoutParams(-1,0,1f))
   list.setOnItemClickListener{_,_,position,_->currentItems.getOrNull(position)?.let{choose(it)}}
   openConnection()
  }
