@@ -6,6 +6,8 @@
  <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
  <application android:label="VIO" android:theme="@android:style/Theme.Material.NoActionBar" android:banner="@drawable/banner" android:icon="@drawable/banner" android:usesCleartextTraffic="true" android:allowBackup="false" android:supportsRtl="true">
  <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.updates" android:exported="false" android:grantUriPermissions="true"><meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/update_paths"/></provider>
+ <activity android:name=".ConnectionActivity" android:exported="false"/>
+ <activity android:name=".LibraryActivity" android:exported="false"/>
  <activity android:name=".UpdateActivity" android:exported="false"/>
  <activity android:name=".AdminActivity" android:exported="false"/>
  <activity android:name=".MainActivity" android:exported="true" android:configChanges="keyboard|keyboardHidden|orientation|screenSize">

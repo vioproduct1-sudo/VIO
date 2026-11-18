@@ -43,7 +43,7 @@ jobs:
           with open(os.environ['GITHUB_ENV'],'a') as env:
               env.write('VIO_KEYSTORE='+str(path)+'\nVIO_STORE_PASSWORD='+password+'\n')
               env.write('VIO_VERSION_CODE='+str(1000+int(os.environ['GITHUB_RUN_NUMBER']))+'\n')
-              env.write('VIO_VERSION_NAME=0.2.'+os.environ['GITHUB_RUN_NUMBER']+'\n')
+              env.write('VIO_VERSION_NAME=0.3.'+os.environ['GITHUB_RUN_NUMBER']+'\n')
           PY
       - run: gradle :android:assembleRelease :android:lintRelease :android:testReleaseUnitTest --no-daemon
       - name: Prepare verified update metadata
@@ -62,7 +62,7 @@ jobs:
         run: |
           tag="android-v${VIO_VERSION_NAME}"
           if ! gh release view "$tag" >/dev/null 2>&1; then
-            gh release create "$tag" --target "$GITHUB_SHA" --title "VIO TV ${VIO_VERSION_NAME}" --notes "Android TV: обновление из приложения, проверка контрольной суммы и подписи. Нужен сервер VIO. Установку подтверждает Android."
+            gh release create "$tag" --target "$GITHUB_SHA" --title "VIO TV ${VIO_VERSION_NAME}" --notes "Android TV: обновление из приложения, проверка контрольной суммы и подписи. Прямое подключение iEdem, медиатека и серверный режим. Установку подтверждает Android."
           fi
           gh release upload "$tag" release/VIO-TV.apk release/android-update.json --clobber
       - name: Remove signing file

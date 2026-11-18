@@ -2,7 +2,8 @@ plugins { id("com.android.application"); id("org.jetbrains.kotlin.android") }
 android {
     namespace = "app.vio.tv"
     compileSdk = 35
-    defaultConfig { applicationId = "app.vio.tv"; minSdk = 23; targetSdk = 35; versionCode = System.getenv("VIO_VERSION_CODE")?.toInt() ?: 2; versionName = System.getenv("VIO_VERSION_NAME") ?: "0.2.0" }
+    defaultConfig { applicationId = "app.vio.tv"; minSdk = 23; targetSdk = 35; versionCode = System.getenv("VIO_VERSION_CODE")?.toInt() ?: 3; versionName = System.getenv("VIO_VERSION_NAME") ?: "0.3.0" }
+    sourceSets.getByName("main").assets.srcDir("../server/catalog")
     buildFeatures { buildConfig = true }
     signingConfigs {
         if (System.getenv("VIO_KEYSTORE") != null) create("vio") {
@@ -19,6 +20,7 @@ android {
 dependencies {
     implementation("androidx.core:core:1.15.0")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
     implementation("androidx.media3:media3-exoplayer:1.5.1")
     implementation("androidx.media3:media3-exoplayer-hls:1.5.1")
     implementation("androidx.media3:media3-ui:1.5.1")
