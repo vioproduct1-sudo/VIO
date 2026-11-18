@@ -79,3 +79,15 @@ test('archive in VIO uses its plugin and resolves the fixed range without exposi
 
 test('return from fullscreen cannot re-arm startup autoplay even in a new Philips controller',()=>{const data=new Map([['vio.direct.key','VALID123'],['vio.direct.prefs',JSON.stringify({fallback:true,pipUpgrade:4,last:'two'})]]),store={getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)},app=createDirect(catalog,'https://vio.example/VIO',store,s=>s,{preferNative:true});const play=app.request('play_current');assert.equal(play.properties['control:action'],'content:request:interaction:channelList');for(let i=0;i<3;i++){const page=app.request('channelList');assert(!page.pages[0].items.some(item=>item.execute));}assert(!app.request('home').pages[0].items.some(item=>item.execute));const stream=app.request('stream_one');assert.equal(stream.properties['trigger:back'],'content:request:interaction:channelList');});
 test('all ten archive actions fit on the screen in two columns',()=>{const {app}=setup();enter(app,'VALID123');const page=app.request('archive');assert.equal(page.pages[0].items.length,10);const cells=page.pages[0].items.map(item=>item.layout.split(',').map(Number));assert(cells.every(([x,y])=>[0,6].includes(x)&&y<=4));});
+
+test('colour keys are attached to reachable VIO buttons with or without channels',()=>{
+ const {app}=setup();
+ for(const route of ['home','favorites']){
+  const items=app.request(route).pages[0].items;
+  for(const [id,key] of Object.entries({categories:'red|channel_list',favorites:'green',archive:'yellow',settings:'blue'})){
+   const button=items.find(item=>item.id===id);
+   assert.equal(button?.key,key,id);
+   assert.ok(button.action);
+  }
+ }
+});

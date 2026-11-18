@@ -34,6 +34,7 @@ class MainActivity : Activity() {
  private lateinit var video:PlayerView
  private lateinit var header:LinearLayout
  private lateinit var nav:LinearLayout
+ private lateinit var navScroll:HorizontalScrollView
  private lateinit var menu:LinearLayout
  private lateinit var list:ListView
  private lateinit var watch:LinearLayout
@@ -54,7 +55,7 @@ class MainActivity : Activity() {
  private val mint=0xff79ebce.toInt()
  private val favorites get()=prefs.getStringSet("favorites",emptySet())!!.toMutableSet()
  private fun dp(n:Int)=(n*resources.displayMetrics.density).toInt()
- override fun onCreate(state:Bundle?) {super.onCreate(state);window.decorView.systemUiVisibility=View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;sourceRevision=prefs.getInt("sourceRevision",0);build();load();if(prefs.getBoolean("autoUpdate",false))startActivity(Intent(this,UpdateActivity::class.java).putExtra("automatic",true))}
+ override fun onCreate(state:Bundle?) {super.onCreate(state);volumeControlStream=android.media.AudioManager.STREAM_MUSIC;window.decorView.systemUiVisibility=View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;sourceRevision=prefs.getInt("sourceRevision",0);build();load();if(prefs.getBoolean("autoUpdate",false))startActivity(Intent(this,UpdateActivity::class.java).putExtra("automatic",true))}
  private fun column()=LinearLayout(this).apply{orientation=LinearLayout.VERTICAL}
  private fun text(value:String,size:Float,color:Int=Color.WHITE)=TextView(this).apply{text=value;textSize=size;setTextColor(color)}
  private fun shape(color:Int,stroke:Int=0)=GradientDrawable().apply{setColor(color);cornerRadius=dp(9).toFloat();if(stroke!=0)setStroke(dp(3),stroke)}
@@ -68,13 +69,15 @@ class MainActivity : Activity() {
   val root=column().apply{setPadding(dp(24),dp(16),dp(24),dp(12));setBackgroundColor(0xff0a1019.toInt())};setContentView(root)
   header=LinearLayout(this).apply{gravity=Gravity.CENTER_VERTICAL};root.addView(header)
   header.addView(text("VIO",32f,mint),LinearLayout.LayoutParams(0,dp(55),1f));header.addView(text("ТЕЛЕВИДЕНИЕ",13f,0xff9aaabd.toInt()))
-  nav=LinearLayout(this);root.addView(nav)
-  navButton("Телеканалы"){favoritesOnly=false;category="Все категории";render()};navButton("★ Избранное"){favoritesOnly=true;render()}
-  navButton("Категории"){val names=listOf("Все категории")+channels.map{it.category}.distinct();AlertDialog.Builder(this).setTitle("Категории").setItems(names.toTypedArray()){_,i->category=names[i];render()}.show()}
-  navButton("Медиатека"){startActivity(Intent(this,LibraryActivity::class.java))};navButton("Настройки"){settings()}
+  nav=LinearLayout(this);navScroll=HorizontalScrollView(this);navScroll.addView(nav);root.addView(navScroll)
+  navButton("Телеканалы"){favoritesOnly=false;category="Все категории";render()};navButton("★ Избранное"){favoritesOnly=true;category="Все категории";render()}
+  navButton("Категории"){chooseCategory()}
+  navButton("Архив"){archive()}
+  navButton("Медиатека"){openLibrary()}
+  navButton("Настройки"){settings()}
   val row=LinearLayout(this);root.addView(row,LinearLayout.LayoutParams(-1,0,1f))
   menu=column();row.addView(menu,LinearLayout.LayoutParams(0,-1,0.42f));menu.addView(text("КАНАЛЫ",13f,0xff9aaabd.toInt()).apply{setPadding(dp(5),dp(16),0,dp(8))})
-  list=ListView(this).apply{setSelector(0xff24463f.toInt());isFocusable=true;isFocusableInTouchMode=true};menu.addView(list,LinearLayout.LayoutParams(-1,0,1f));menu.addView(text("↑ ↓ Выбор · OK Просмотр · Назад Список",12f,0xff9aaabd.toInt()))
+  list=ListView(this).apply{setSelector(android.graphics.drawable.ColorDrawable(Color.TRANSPARENT));isFocusable=true;isFocusableInTouchMode=true};menu.addView(list,LinearLayout.LayoutParams(-1,0,1f));menu.addView(text("Красная · Категории   Зелёная · Избранное\nЖёлтая · Архив   Синяя · Медиатека",12f,0xff9aaabd.toInt()))
   watch=column().apply{setPadding(dp(24),dp(12),0,0)};row.addView(watch,LinearLayout.LayoutParams(0,-1,0.58f))
   video=PlayerView(this);video.useController=true;video.setBackgroundColor(Color.BLACK);watch.addView(video,LinearLayout.LayoutParams(-1,0,1f))
   details=column();watch.addView(details);title=text("Ваше телевидение",25f);details.addView(title);programme=text("Подключите каналы через администратора",16f,0xff9aaabd.toInt());details.addView(programme)
@@ -83,7 +86,18 @@ class MainActivity : Activity() {
   star=button("☆ Избранное",actions){current?.let{val ids=favorites;if(!ids.add(it.id))ids.remove(it.id);prefs.edit().putStringSet("favorites",ids).apply();render()}};star.layoutParams=LinearLayout.LayoutParams(0,dp(56),1f)
   status=text("Выберите канал. Повторное OK — полный экран.",13f,0xffffd49a.toInt());details.addView(status)
  }
- private fun render(){val shown=channels.filter{(category=="Все категории"||it.category==category)&&(!favoritesOnly||favorites.contains(it.id))}
+ private fun visibleChannels():List<Channel>{
+  val stars=if(favoritesOnly) favorites else emptySet()
+  return channels.filter{(category=="Все категории" || it.category==category) && (!favoritesOnly || it.id in stars)}
+ }
+ private fun chooseCategory(){
+  val names=listOf("Все категории")+channels.map{it.category}.distinct()
+  AlertDialog.Builder(this).setTitle("Категории").setSingleChoiceItems(names.toTypedArray(),names.indexOf(category)){dialog,i->
+   category=names[i];favoritesOnly=false;dialog.dismiss();setFull(false);render();list.requestFocus()
+  }.show()
+ }
+ private fun openLibrary(){startActivity(Intent(this,LibraryActivity::class.java))}
+ private fun render(){val shown=visibleChannels()
   list.adapter=object:BaseAdapter(){override fun getCount()=maxOf(1,shown.size);override fun getItem(position:Int)=shown.getOrNull(position);override fun getItemId(position:Int)=position.toLong();override fun getView(position:Int,convert:View?,parent:android.view.ViewGroup):View{val row=(convert as? TextView)?:TextView(this@MainActivity).apply{setTextColor(Color.WHITE);setPadding(dp(12),dp(9),dp(12),dp(9));minHeight=dp(64);maxLines=3;background=StateListDrawable().apply{addState(intArrayOf(android.R.attr.state_selected),shape(0xff24463f.toInt(),mint));addState(intArrayOf(android.R.attr.state_pressed),shape(0xff24463f.toInt(),mint));addState(intArrayOf(),shape(0xff152332.toInt()))}};row.textSize=if(prefs.getBoolean("large",false))24f else 20f;val c=shown.getOrNull(position);row.text=if(c==null){if(channels.isEmpty())"Подключить телеканалы" else "Список пуст"}else String.format("%03d",c.number)+"   "+c.name+(if(favorites.contains(c.id))"  ★" else "")+"\n"+c.now.ifEmpty{c.category};return row}}
   list.setOnItemClickListener{_,_,position,_->val c=shown.getOrNull(position);if(c==null){if(channels.isEmpty())startActivity(Intent(this,ConnectionActivity::class.java))}else if(current?.id==c.id)setFull(true)else play(c)}
   val selected=shown.indexOfFirst{it.id==current?.id};if(selected>=0)list.setSelection(selected)
@@ -94,7 +108,7 @@ class MainActivity : Activity() {
    runOnUiThread{if(!destroyed&&id==generation){loading=false;channels=result;status.text="Прямое подключение · ${result.size} каналов";render();if(current==null&&prefs.getBoolean("resume",true))channels.find{it.id==prefs.getString("last","")}?.let{play(it)}}}
   }catch(_:Exception){runOnUiThread{if(!destroyed&&id==generation){loading=false;status.text="Не удалось прочитать каталог VIO";render()}}}}
  }
- private fun archive(){val selected=current?:return;val live=channels.find{it.id==selected.id}?:return;val offsets=listOf(3600,10800,21600,43200,86400,172800,259200,345600);val names=offsets.map{if(it<86400)(it/3600).toString()+" ч назад"else(it/86400).toString()+" дн назад"}+"Прямой эфир";AlertDialog.Builder(this).setTitle("Архив: "+live.name).setMessage("Доступность записей зависит от канала и подписки.").setPositiveButton("Выбрать время"){_,_->AlertDialog.Builder(this).setTitle("Начать просмотр").setItems(names.toTypedArray()){_,i->if(i==offsets.size)play(live)else play(live.copy(name=live.name+" · архив",url=ProviderAccess.replayUrl(live.url,offsets[i])))}.show()}.setNegativeButton("Отмена",null).show()}
+ private fun archive(){val selected=current?:run{Toast.makeText(this,"Сначала включите канал",Toast.LENGTH_SHORT).show();return};val live=channels.find{it.id==selected.id}?:return;val offsets=listOf(3600,10800,21600,43200,86400,172800,259200,345600);val names=offsets.map{if(it<86400)(it/3600).toString()+" ч назад"else(it/86400).toString()+" дн назад"}+"Прямой эфир";AlertDialog.Builder(this).setTitle("Архив: "+live.name).setMessage("Доступность записей зависит от канала и подписки.").setPositiveButton("Выбрать время"){_,_->AlertDialog.Builder(this).setTitle("Начать просмотр").setItems(names.toTypedArray()){_,i->if(i==offsets.size)play(live)else play(live.copy(name=live.name+" · архив",url=ProviderAccess.replayUrl(live.url,offsets[i])))}.show()}.setNegativeButton("Отмена",null).show()}
  private fun load(){val base=prefs.getString("server","")!!;if(prefs.getBoolean("directMode",base.isEmpty())){loadDirect();return};if(base.isEmpty()){status.text="Откройте настройки и укажите адрес сервера VIO";render();return};if(loading)return;loading=true;val id=++generation;status.text="Подключение…"
   worker.execute{try{val conn=URL(base.trimEnd('/')+"/api/channels").openConnection() as HttpURLConnection;conn.connectTimeout=10000;conn.readTimeout=15000;val data=try{if(conn.responseCode!=200)error("HTTP ${conn.responseCode}");conn.inputStream.bufferedReader().use{it.readText()}}finally{conn.disconnect()}
    val arr=JSONObject(data).getJSONArray("channels");val result=(0 until arr.length()).map{val c=arr.getJSONObject(it);Channel(c.getString("id"),c.getString("name"),c.getString("category"),c.getString("url"),c.optJSONObject("now")?.optString("title")?:"",c.optJSONObject("next")?.optString("title")?:"",c.optInt("number",it+1))}
@@ -104,9 +118,37 @@ class MainActivity : Activity() {
  private fun initPlayer(){if(player!=null)return;player=ExoPlayer.Builder(this).build().also{p->video.player=p;p.addListener(object:Player.Listener{override fun onPlayerError(error:PlaybackException){status.text="Поток не открылся ("+error.errorCodeName+"). Проверьте ключ и подписку; повторно выберите канал."}})};applyTracks()}
  private fun applyTracks(){player?.let{p->p.trackSelectionParameters=p.trackSelectionParameters.buildUpon().setPreferredAudioLanguage(prefs.getString("audio","ru")).setMaxVideoSize(if(prefs.getBoolean("hd",false))1280 else Int.MAX_VALUE,if(prefs.getBoolean("hd",false))720 else Int.MAX_VALUE).setTrackTypeDisabled(C.TRACK_TYPE_TEXT,!prefs.getBoolean("subtitles",false)).build()};video.resizeMode=if(prefs.getBoolean("fill",false))androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM else androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT}
  private fun play(c:Channel){current=c;prefs.edit().putString("last",c.id).apply();title.text=c.name;programme.text=c.now.ifEmpty{"Телепрограмма не найдена"}+(if(c.next.isNotEmpty())"\nДалее: "+c.next else "");status.text="OK на выбранном канале — весь экран";initPlayer();player?.setMediaItem(MediaItem.fromUri(c.url));player?.prepare();player?.playWhenReady=true;star.text=if(favorites.contains(c.id))"★ В избранном" else "☆ Избранное"}
- private fun setFull(value:Boolean){if(current==null)return;full=value;header.visibility=if(value)View.GONE else View.VISIBLE;nav.visibility=if(value)View.GONE else View.VISIBLE;menu.visibility=if(value)View.GONE else View.VISIBLE;details.visibility=if(value)View.GONE else View.VISIBLE;watch.setPadding(if(value)0 else dp(24),if(value)0 else dp(12),0,0);if(value)video.requestFocus() else list.requestFocus()}
+ private fun setFull(value:Boolean){if(current==null)return;full=value;header.visibility=if(value)View.GONE else View.VISIBLE;navScroll.visibility=if(value)View.GONE else View.VISIBLE;menu.visibility=if(value)View.GONE else View.VISIBLE;details.visibility=if(value)View.GONE else View.VISIBLE;watch.setPadding(if(value)0 else dp(24),if(value)0 else dp(12),0,0);if(value)video.requestFocus() else list.requestFocus()}
  @Deprecated("TV back navigation") override fun onBackPressed(){if(full)setFull(false) else AlertDialog.Builder(this).setTitle("Закрыть VIO?").setPositiveButton("Закрыть"){_,_->finish()}.setNegativeButton("Остаться",null).show()}
- override fun onKeyDown(code:Int,event:KeyEvent):Boolean {if(full&&(code==KeyEvent.KEYCODE_DPAD_CENTER||code==KeyEvent.KEYCODE_ENTER)){setFull(false);return true};if(code==KeyEvent.KEYCODE_CHANNEL_UP||code==KeyEvent.KEYCODE_CHANNEL_DOWN){if(channels.isNotEmpty()){val i=channels.indexOfFirst{it.id==current?.id};play(channels[(i+(if(code==KeyEvent.KEYCODE_CHANNEL_UP)1 else -1)+channels.size)%channels.size])};return true};return super.onKeyDown(code,event)}
+ private var consumedKey=KeyEvent.KEYCODE_UNKNOWN
+ override fun dispatchKeyEvent(event:KeyEvent):Boolean {
+  val code=event.keyCode
+  if(code==consumedKey && (event.action==KeyEvent.ACTION_UP || event.repeatCount>0)){
+   if(event.action==KeyEvent.ACTION_UP)consumedKey=KeyEvent.KEYCODE_UNKNOWN
+   return true
+  }
+  if(event.action!=KeyEvent.ACTION_DOWN || event.repeatCount!=0)return super.dispatchKeyEvent(event)
+  when(code){
+   KeyEvent.KEYCODE_DPAD_CENTER,KeyEvent.KEYCODE_ENTER->if(full)setFull(false) else return super.dispatchKeyEvent(event)
+   KeyEvent.KEYCODE_PROG_RED->chooseCategory()
+   KeyEvent.KEYCODE_PROG_GREEN->{setFull(false);favoritesOnly=true;category="Все категории";render();list.requestFocus()}
+   KeyEvent.KEYCODE_PROG_YELLOW->archive()
+   KeyEvent.KEYCODE_PROG_BLUE->openLibrary()
+   KeyEvent.KEYCODE_CHANNEL_UP,KeyEvent.KEYCODE_CHANNEL_DOWN->{
+    val visible=visibleChannels()
+    if(visible.isNotEmpty()){
+     val index=visible.indexOfFirst{it.id==current?.id}
+     val next=if(code==KeyEvent.KEYCODE_CHANNEL_UP)(index+1)%visible.size
+      else if(index<=0)visible.lastIndex else index-1
+     play(visible[next]);list.setSelection(next)
+    }
+   }
+   else->return super.dispatchKeyEvent(event)
+  }
+  consumedKey=code
+  return true
+ }
+ override fun onWindowFocusChanged(hasFocus:Boolean){super.onWindowFocusChanged(hasFocus);if(hasFocus)consumedKey=KeyEvent.KEYCODE_UNKNOWN}
  private fun external(){current?.let{try{startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(Uri.parse(it.url),"video/*"))}catch(_:Exception){Toast.makeText(this,"Установите VLC или другой плеер",Toast.LENGTH_LONG).show()}}}
  private fun admin(){if(prefs.getBoolean("directMode",prefs.getString("server","").isNullOrEmpty())){startActivity(Intent(this,ConnectionActivity::class.java));return};val base=prefs.getString("server","")!!;if(base.isEmpty()){Toast.makeText(this,"Сначала укажите сервер VIO",Toast.LENGTH_LONG).show();return};startActivity(Intent(this,AdminActivity::class.java).putExtra("server",base))}
  private fun settings(){val box=column().apply{setPadding(dp(20),dp(10),dp(20),dp(10))};val server=EditText(this).apply{hint="Адрес VIO: http://192.168.1.100:8088";setText(prefs.getString("server",""));inputType=android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_URI};box.addView(server)
@@ -122,7 +164,7 @@ class MainActivity : Activity() {
   val scroll=ScrollView(this);scroll.addView(box);val dialog=AlertDialog.Builder(this).setTitle("Настройки VIO").setView(scroll).setPositiveButton("Сохранить",null).setNegativeButton("Закрыть",null).create()
   dialog.setOnShowListener{dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener{val u=Uri.parse(server.text.toString().trim());if(!prefs.getBoolean("directMode",prefs.getString("server","").isNullOrEmpty())&&(u.scheme !in listOf("http","https")||u.host.isNullOrEmpty()||u.userInfo!=null)){server.error="Укажите HTTP(S)-адрес сервера VIO"}else{prefs.edit().putString("server",server.text.toString().trim().trimEnd('/')).apply();applyTracks();render();load();dialog.dismiss()}}};dialog.show()
  }
- override fun onResume(){super.onResume();val revision=prefs.getInt("sourceRevision",0);if(revision!=sourceRevision){sourceRevision=revision;generation++;loading=false;current=null;channels=emptyList();player?.stop();load()}}
+ override fun onResume(){super.onResume();consumedKey=KeyEvent.KEYCODE_UNKNOWN;val revision=prefs.getInt("sourceRevision",0);if(revision!=sourceRevision){sourceRevision=revision;generation++;loading=false;current=null;channels=emptyList();player?.stop();load()}}
  override fun onStop(){super.onStop();player?.release();player=null;video.player=null}
  override fun onStart(){super.onStart();current?.let{play(it)}}
  override fun onDestroy(){destroyed=true;generation++;worker.shutdownNow();player?.release();super.onDestroy()}
